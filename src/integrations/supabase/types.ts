@@ -1920,6 +1920,10 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      create_workspace_with_demo: {
+        Args: { _name: string; _with_demo?: boolean }
+        Returns: string
+      }
       is_workspace_member: { Args: { _workspace_id: string }; Returns: boolean }
       workspace_role: {
         Args: { _workspace_id: string }
