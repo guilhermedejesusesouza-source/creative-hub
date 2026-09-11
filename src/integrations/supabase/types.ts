@@ -386,65 +386,211 @@ export type Database = {
           },
         ]
       }
-      clients: {
+      client_notes: {
         Row: {
-          brand_colors: string[] | null
-          brand_fonts: string | null
-          brand_notes: string | null
-          company: string | null
-          contact_email: string | null
-          contact_name: string | null
-          contact_phone: string | null
+          author: string | null
+          body: string | null
+          category: string
+          client_id: string | null
           created_at: string
           id: string
-          is_demo: boolean
-          logo_url: string | null
-          name: string
-          notes: string | null
-          segment: string | null
-          status: string
+          is_pinned: boolean
+          lead_id: string | null
+          priority: string
+          tags: string[] | null
+          title: string
           updated_at: string
           workspace_id: string
         }
         Insert: {
-          brand_colors?: string[] | null
-          brand_fonts?: string | null
-          brand_notes?: string | null
-          company?: string | null
-          contact_email?: string | null
-          contact_name?: string | null
-          contact_phone?: string | null
+          author?: string | null
+          body?: string | null
+          category?: string
+          client_id?: string | null
           created_at?: string
           id?: string
-          is_demo?: boolean
-          logo_url?: string | null
-          name: string
-          notes?: string | null
-          segment?: string | null
-          status?: string
+          is_pinned?: boolean
+          lead_id?: string | null
+          priority?: string
+          tags?: string[] | null
+          title: string
           updated_at?: string
           workspace_id: string
         }
         Update: {
-          brand_colors?: string[] | null
-          brand_fonts?: string | null
-          brand_notes?: string | null
-          company?: string | null
-          contact_email?: string | null
-          contact_name?: string | null
-          contact_phone?: string | null
+          author?: string | null
+          body?: string | null
+          category?: string
+          client_id?: string | null
           created_at?: string
           id?: string
-          is_demo?: boolean
-          logo_url?: string | null
-          name?: string
-          notes?: string | null
-          segment?: string | null
-          status?: string
+          is_pinned?: boolean
+          lead_id?: string | null
+          priority?: string
+          tags?: string[] | null
+          title?: string
           updated_at?: string
           workspace_id?: string
         }
         Relationships: [
+          {
+            foreignKeyName: "client_notes_client_id_fkey"
+            columns: ["client_id"]
+            isOneToOne: false
+            referencedRelation: "clients"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "client_notes_lead_id_fkey"
+            columns: ["lead_id"]
+            isOneToOne: false
+            referencedRelation: "leads"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "client_notes_workspace_id_fkey"
+            columns: ["workspace_id"]
+            isOneToOne: false
+            referencedRelation: "workspaces"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      clients: {
+        Row: {
+          account_manager: string | null
+          brand_colors: string[] | null
+          brand_fonts: string | null
+          brand_notes: string | null
+          city: string | null
+          close_date: string | null
+          cnpj: string | null
+          company: string | null
+          contact_email: string | null
+          contact_name: string | null
+          contact_phone: string | null
+          contract_value: number | null
+          created_at: string
+          due_day: number | null
+          entry_date: string | null
+          financial_status: string | null
+          health: string
+          health_notes: string | null
+          id: string
+          instagram: string | null
+          is_demo: boolean
+          lead_id: string | null
+          logo_url: string | null
+          monthly_value: number | null
+          name: string
+          notes: string | null
+          plan: string | null
+          priority: string
+          sales_owner: string | null
+          segment: string | null
+          service: string | null
+          source: string | null
+          state: string | null
+          status: string
+          tags: string[] | null
+          trade_name: string | null
+          updated_at: string
+          website: string | null
+          whatsapp: string | null
+          workspace_id: string
+        }
+        Insert: {
+          account_manager?: string | null
+          brand_colors?: string[] | null
+          brand_fonts?: string | null
+          brand_notes?: string | null
+          city?: string | null
+          close_date?: string | null
+          cnpj?: string | null
+          company?: string | null
+          contact_email?: string | null
+          contact_name?: string | null
+          contact_phone?: string | null
+          contract_value?: number | null
+          created_at?: string
+          due_day?: number | null
+          entry_date?: string | null
+          financial_status?: string | null
+          health?: string
+          health_notes?: string | null
+          id?: string
+          instagram?: string | null
+          is_demo?: boolean
+          lead_id?: string | null
+          logo_url?: string | null
+          monthly_value?: number | null
+          name: string
+          notes?: string | null
+          plan?: string | null
+          priority?: string
+          sales_owner?: string | null
+          segment?: string | null
+          service?: string | null
+          source?: string | null
+          state?: string | null
+          status?: string
+          tags?: string[] | null
+          trade_name?: string | null
+          updated_at?: string
+          website?: string | null
+          whatsapp?: string | null
+          workspace_id: string
+        }
+        Update: {
+          account_manager?: string | null
+          brand_colors?: string[] | null
+          brand_fonts?: string | null
+          brand_notes?: string | null
+          city?: string | null
+          close_date?: string | null
+          cnpj?: string | null
+          company?: string | null
+          contact_email?: string | null
+          contact_name?: string | null
+          contact_phone?: string | null
+          contract_value?: number | null
+          created_at?: string
+          due_day?: number | null
+          entry_date?: string | null
+          financial_status?: string | null
+          health?: string
+          health_notes?: string | null
+          id?: string
+          instagram?: string | null
+          is_demo?: boolean
+          lead_id?: string | null
+          logo_url?: string | null
+          monthly_value?: number | null
+          name?: string
+          notes?: string | null
+          plan?: string | null
+          priority?: string
+          sales_owner?: string | null
+          segment?: string | null
+          service?: string | null
+          source?: string | null
+          state?: string | null
+          status?: string
+          tags?: string[] | null
+          trade_name?: string | null
+          updated_at?: string
+          website?: string | null
+          whatsapp?: string | null
+          workspace_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "clients_lead_id_fkey"
+            columns: ["lead_id"]
+            isOneToOne: false
+            referencedRelation: "leads"
+            referencedColumns: ["id"]
+          },
           {
             foreignKeyName: "clients_workspace_id_fkey"
             columns: ["workspace_id"]
@@ -967,6 +1113,149 @@ export type Database = {
           },
         ]
       }
+      crm_activities: {
+        Row: {
+          author: string | null
+          body: string | null
+          channel: string | null
+          client_id: string | null
+          created_at: string
+          happened_at: string
+          id: string
+          lead_id: string | null
+          title: string
+          type: string
+          updated_at: string
+          workspace_id: string
+        }
+        Insert: {
+          author?: string | null
+          body?: string | null
+          channel?: string | null
+          client_id?: string | null
+          created_at?: string
+          happened_at?: string
+          id?: string
+          lead_id?: string | null
+          title: string
+          type?: string
+          updated_at?: string
+          workspace_id: string
+        }
+        Update: {
+          author?: string | null
+          body?: string | null
+          channel?: string | null
+          client_id?: string | null
+          created_at?: string
+          happened_at?: string
+          id?: string
+          lead_id?: string | null
+          title?: string
+          type?: string
+          updated_at?: string
+          workspace_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "crm_activities_client_id_fkey"
+            columns: ["client_id"]
+            isOneToOne: false
+            referencedRelation: "clients"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "crm_activities_lead_id_fkey"
+            columns: ["lead_id"]
+            isOneToOne: false
+            referencedRelation: "leads"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "crm_activities_workspace_id_fkey"
+            columns: ["workspace_id"]
+            isOneToOne: false
+            referencedRelation: "workspaces"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      follow_ups: {
+        Row: {
+          channel: string | null
+          client_id: string | null
+          created_at: string
+          done_on: string | null
+          due_on: string
+          id: string
+          lead_id: string | null
+          next_action: string | null
+          notes: string | null
+          number: number
+          owner: string | null
+          result: string | null
+          status: string
+          updated_at: string
+          workspace_id: string
+        }
+        Insert: {
+          channel?: string | null
+          client_id?: string | null
+          created_at?: string
+          done_on?: string | null
+          due_on?: string
+          id?: string
+          lead_id?: string | null
+          next_action?: string | null
+          notes?: string | null
+          number?: number
+          owner?: string | null
+          result?: string | null
+          status?: string
+          updated_at?: string
+          workspace_id: string
+        }
+        Update: {
+          channel?: string | null
+          client_id?: string | null
+          created_at?: string
+          done_on?: string | null
+          due_on?: string
+          id?: string
+          lead_id?: string | null
+          next_action?: string | null
+          notes?: string | null
+          number?: number
+          owner?: string | null
+          result?: string | null
+          status?: string
+          updated_at?: string
+          workspace_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "follow_ups_client_id_fkey"
+            columns: ["client_id"]
+            isOneToOne: false
+            referencedRelation: "clients"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "follow_ups_lead_id_fkey"
+            columns: ["lead_id"]
+            isOneToOne: false
+            referencedRelation: "leads"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "follow_ups_workspace_id_fkey"
+            columns: ["workspace_id"]
+            isOneToOne: false
+            referencedRelation: "workspaces"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       hooks: {
         Row: {
           category: string
@@ -1084,6 +1373,110 @@ export type Database = {
           },
         ]
       }
+      import_errors: {
+        Row: {
+          created_at: string
+          id: string
+          import_job_id: string
+          message: string
+          raw: Json | null
+          row_number: number
+          workspace_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          import_job_id: string
+          message: string
+          raw?: Json | null
+          row_number?: number
+          workspace_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          import_job_id?: string
+          message?: string
+          raw?: Json | null
+          row_number?: number
+          workspace_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "import_errors_import_job_id_fkey"
+            columns: ["import_job_id"]
+            isOneToOne: false
+            referencedRelation: "import_jobs"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "import_errors_workspace_id_fkey"
+            columns: ["workspace_id"]
+            isOneToOne: false
+            referencedRelation: "workspaces"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      import_jobs: {
+        Row: {
+          author: string | null
+          created_at: string
+          entity: string
+          failed: number
+          file_name: string | null
+          id: string
+          imported: number
+          mapping: Json
+          skipped: number
+          status: string
+          total_rows: number
+          updated: number
+          updated_at: string
+          workspace_id: string
+        }
+        Insert: {
+          author?: string | null
+          created_at?: string
+          entity: string
+          failed?: number
+          file_name?: string | null
+          id?: string
+          imported?: number
+          mapping?: Json
+          skipped?: number
+          status?: string
+          total_rows?: number
+          updated?: number
+          updated_at?: string
+          workspace_id: string
+        }
+        Update: {
+          author?: string | null
+          created_at?: string
+          entity?: string
+          failed?: number
+          file_name?: string | null
+          id?: string
+          imported?: number
+          mapping?: Json
+          skipped?: number
+          status?: string
+          total_rows?: number
+          updated?: number
+          updated_at?: string
+          workspace_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "import_jobs_workspace_id_fkey"
+            columns: ["workspace_id"]
+            isOneToOne: false
+            referencedRelation: "workspaces"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       insights: {
         Row: {
           action: string | null
@@ -1160,6 +1553,287 @@ export type Database = {
           },
           {
             foreignKeyName: "insights_workspace_id_fkey"
+            columns: ["workspace_id"]
+            isOneToOne: false
+            referencedRelation: "workspaces"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      lead_contacts: {
+        Row: {
+          author: string | null
+          channel: string | null
+          contacted_on: string
+          created_at: string
+          id: string
+          lead_id: string
+          message: string | null
+          next_contact_on: string | null
+          notes: string | null
+          number: number
+          reply: string | null
+          result: string | null
+          updated_at: string
+          workspace_id: string
+        }
+        Insert: {
+          author?: string | null
+          channel?: string | null
+          contacted_on?: string
+          created_at?: string
+          id?: string
+          lead_id: string
+          message?: string | null
+          next_contact_on?: string | null
+          notes?: string | null
+          number?: number
+          reply?: string | null
+          result?: string | null
+          updated_at?: string
+          workspace_id: string
+        }
+        Update: {
+          author?: string | null
+          channel?: string | null
+          contacted_on?: string
+          created_at?: string
+          id?: string
+          lead_id?: string
+          message?: string | null
+          next_contact_on?: string | null
+          notes?: string | null
+          number?: number
+          reply?: string | null
+          result?: string | null
+          updated_at?: string
+          workspace_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "lead_contacts_lead_id_fkey"
+            columns: ["lead_id"]
+            isOneToOne: false
+            referencedRelation: "leads"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "lead_contacts_workspace_id_fkey"
+            columns: ["workspace_id"]
+            isOneToOne: false
+            referencedRelation: "workspaces"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      leads: {
+        Row: {
+          budget: string | null
+          city: string | null
+          client_id: string | null
+          closed_at: string | null
+          cnpj: string | null
+          company: string | null
+          contact_count: number
+          created_at: string
+          email: string | null
+          entry_date: string
+          fit: string | null
+          id: string
+          instagram: string | null
+          interest_service: string | null
+          is_demo: boolean
+          last_contact_at: string | null
+          loss_notes: string | null
+          loss_reason: string | null
+          lost_at: string | null
+          lost_by: string | null
+          name: string
+          need: string | null
+          next_action: string | null
+          next_contact_on: string | null
+          notes: string | null
+          nurture_interest: string | null
+          nurture_potential: string | null
+          nurture_reason: string | null
+          nurture_since: string | null
+          owner: string | null
+          pain: string | null
+          phone: string | null
+          potential_value: number | null
+          role_title: string | null
+          score: number
+          score_authority: number | null
+          score_engagement: number | null
+          score_financial: number | null
+          score_fit: number | null
+          score_need: number | null
+          score_urgency: number | null
+          segment: string | null
+          source: string | null
+          stage: string
+          state: string | null
+          status: string
+          tags: string[] | null
+          updated_at: string
+          urgency: string | null
+          website: string | null
+          whatsapp: string | null
+          workspace_id: string
+        }
+        Insert: {
+          budget?: string | null
+          city?: string | null
+          client_id?: string | null
+          closed_at?: string | null
+          cnpj?: string | null
+          company?: string | null
+          contact_count?: number
+          created_at?: string
+          email?: string | null
+          entry_date?: string
+          fit?: string | null
+          id?: string
+          instagram?: string | null
+          interest_service?: string | null
+          is_demo?: boolean
+          last_contact_at?: string | null
+          loss_notes?: string | null
+          loss_reason?: string | null
+          lost_at?: string | null
+          lost_by?: string | null
+          name: string
+          need?: string | null
+          next_action?: string | null
+          next_contact_on?: string | null
+          notes?: string | null
+          nurture_interest?: string | null
+          nurture_potential?: string | null
+          nurture_reason?: string | null
+          nurture_since?: string | null
+          owner?: string | null
+          pain?: string | null
+          phone?: string | null
+          potential_value?: number | null
+          role_title?: string | null
+          score?: number
+          score_authority?: number | null
+          score_engagement?: number | null
+          score_financial?: number | null
+          score_fit?: number | null
+          score_need?: number | null
+          score_urgency?: number | null
+          segment?: string | null
+          source?: string | null
+          stage?: string
+          state?: string | null
+          status?: string
+          tags?: string[] | null
+          updated_at?: string
+          urgency?: string | null
+          website?: string | null
+          whatsapp?: string | null
+          workspace_id: string
+        }
+        Update: {
+          budget?: string | null
+          city?: string | null
+          client_id?: string | null
+          closed_at?: string | null
+          cnpj?: string | null
+          company?: string | null
+          contact_count?: number
+          created_at?: string
+          email?: string | null
+          entry_date?: string
+          fit?: string | null
+          id?: string
+          instagram?: string | null
+          interest_service?: string | null
+          is_demo?: boolean
+          last_contact_at?: string | null
+          loss_notes?: string | null
+          loss_reason?: string | null
+          lost_at?: string | null
+          lost_by?: string | null
+          name?: string
+          need?: string | null
+          next_action?: string | null
+          next_contact_on?: string | null
+          notes?: string | null
+          nurture_interest?: string | null
+          nurture_potential?: string | null
+          nurture_reason?: string | null
+          nurture_since?: string | null
+          owner?: string | null
+          pain?: string | null
+          phone?: string | null
+          potential_value?: number | null
+          role_title?: string | null
+          score?: number
+          score_authority?: number | null
+          score_engagement?: number | null
+          score_financial?: number | null
+          score_fit?: number | null
+          score_need?: number | null
+          score_urgency?: number | null
+          segment?: string | null
+          source?: string | null
+          stage?: string
+          state?: string | null
+          status?: string
+          tags?: string[] | null
+          updated_at?: string
+          urgency?: string | null
+          website?: string | null
+          whatsapp?: string | null
+          workspace_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "leads_client_id_fkey"
+            columns: ["client_id"]
+            isOneToOne: false
+            referencedRelation: "clients"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "leads_workspace_id_fkey"
+            columns: ["workspace_id"]
+            isOneToOne: false
+            referencedRelation: "workspaces"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      loss_reasons: {
+        Row: {
+          created_at: string
+          id: string
+          is_active: boolean
+          name: string
+          updated_at: string
+          workspace_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          is_active?: boolean
+          name: string
+          updated_at?: string
+          workspace_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          is_active?: boolean
+          name?: string
+          updated_at?: string
+          workspace_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "loss_reasons_workspace_id_fkey"
             columns: ["workspace_id"]
             isOneToOne: false
             referencedRelation: "workspaces"
@@ -1256,6 +1930,143 @@ export type Database = {
           },
           {
             foreignKeyName: "matrix_rows_workspace_id_fkey"
+            columns: ["workspace_id"]
+            isOneToOne: false
+            referencedRelation: "workspaces"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      meeting_actions: {
+        Row: {
+          created_at: string
+          description: string
+          due_on: string | null
+          id: string
+          is_done: boolean
+          meeting_id: string
+          owner: string | null
+          task_id: string | null
+          updated_at: string
+          workspace_id: string
+        }
+        Insert: {
+          created_at?: string
+          description: string
+          due_on?: string | null
+          id?: string
+          is_done?: boolean
+          meeting_id: string
+          owner?: string | null
+          task_id?: string | null
+          updated_at?: string
+          workspace_id: string
+        }
+        Update: {
+          created_at?: string
+          description?: string
+          due_on?: string | null
+          id?: string
+          is_done?: boolean
+          meeting_id?: string
+          owner?: string | null
+          task_id?: string | null
+          updated_at?: string
+          workspace_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "meeting_actions_meeting_id_fkey"
+            columns: ["meeting_id"]
+            isOneToOne: false
+            referencedRelation: "meetings"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "meeting_actions_task_id_fkey"
+            columns: ["task_id"]
+            isOneToOne: false
+            referencedRelation: "tasks"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "meeting_actions_workspace_id_fkey"
+            columns: ["workspace_id"]
+            isOneToOne: false
+            referencedRelation: "workspaces"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      meetings: {
+        Row: {
+          agenda: string | null
+          client_id: string | null
+          created_at: string
+          decisions: string | null
+          id: string
+          lead_id: string | null
+          notes: string | null
+          objective: string | null
+          participants: string[] | null
+          scheduled_at: string
+          status: string
+          title: string
+          type: string | null
+          updated_at: string
+          workspace_id: string
+        }
+        Insert: {
+          agenda?: string | null
+          client_id?: string | null
+          created_at?: string
+          decisions?: string | null
+          id?: string
+          lead_id?: string | null
+          notes?: string | null
+          objective?: string | null
+          participants?: string[] | null
+          scheduled_at?: string
+          status?: string
+          title: string
+          type?: string | null
+          updated_at?: string
+          workspace_id: string
+        }
+        Update: {
+          agenda?: string | null
+          client_id?: string | null
+          created_at?: string
+          decisions?: string | null
+          id?: string
+          lead_id?: string | null
+          notes?: string | null
+          objective?: string | null
+          participants?: string[] | null
+          scheduled_at?: string
+          status?: string
+          title?: string
+          type?: string | null
+          updated_at?: string
+          workspace_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "meetings_client_id_fkey"
+            columns: ["client_id"]
+            isOneToOne: false
+            referencedRelation: "clients"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "meetings_lead_id_fkey"
+            columns: ["lead_id"]
+            isOneToOne: false
+            referencedRelation: "leads"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "meetings_workspace_id_fkey"
             columns: ["workspace_id"]
             isOneToOne: false
             referencedRelation: "workspaces"
@@ -1380,6 +2191,120 @@ export type Database = {
           },
         ]
       }
+      onboarding_steps: {
+        Row: {
+          created_at: string
+          done_at: string | null
+          group_name: string
+          id: string
+          is_done: boolean
+          label: string
+          notes: string | null
+          onboarding_id: string
+          owner: string | null
+          position: number
+          updated_at: string
+          workspace_id: string
+        }
+        Insert: {
+          created_at?: string
+          done_at?: string | null
+          group_name: string
+          id?: string
+          is_done?: boolean
+          label: string
+          notes?: string | null
+          onboarding_id: string
+          owner?: string | null
+          position?: number
+          updated_at?: string
+          workspace_id: string
+        }
+        Update: {
+          created_at?: string
+          done_at?: string | null
+          group_name?: string
+          id?: string
+          is_done?: boolean
+          label?: string
+          notes?: string | null
+          onboarding_id?: string
+          owner?: string | null
+          position?: number
+          updated_at?: string
+          workspace_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "onboarding_steps_onboarding_id_fkey"
+            columns: ["onboarding_id"]
+            isOneToOne: false
+            referencedRelation: "onboardings"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "onboarding_steps_workspace_id_fkey"
+            columns: ["workspace_id"]
+            isOneToOne: false
+            referencedRelation: "workspaces"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      onboardings: {
+        Row: {
+          client_id: string
+          created_at: string
+          finished_on: string | null
+          id: string
+          notes: string | null
+          owner: string | null
+          started_on: string
+          status: string
+          updated_at: string
+          workspace_id: string
+        }
+        Insert: {
+          client_id: string
+          created_at?: string
+          finished_on?: string | null
+          id?: string
+          notes?: string | null
+          owner?: string | null
+          started_on?: string
+          status?: string
+          updated_at?: string
+          workspace_id: string
+        }
+        Update: {
+          client_id?: string
+          created_at?: string
+          finished_on?: string | null
+          id?: string
+          notes?: string | null
+          owner?: string | null
+          started_on?: string
+          status?: string
+          updated_at?: string
+          workspace_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "onboardings_client_id_fkey"
+            columns: ["client_id"]
+            isOneToOne: false
+            referencedRelation: "clients"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "onboardings_workspace_id_fkey"
+            columns: ["workspace_id"]
+            isOneToOne: false
+            referencedRelation: "workspaces"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       performances: {
         Row: {
           campaign_id: string | null
@@ -1481,6 +2406,124 @@ export type Database = {
           },
           {
             foreignKeyName: "performances_workspace_id_fkey"
+            columns: ["workspace_id"]
+            isOneToOne: false
+            referencedRelation: "workspaces"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      process_steps: {
+        Row: {
+          created_at: string
+          default_days: number | null
+          id: string
+          label: string
+          position: number
+          process_id: string
+          updated_at: string
+          workspace_id: string
+        }
+        Insert: {
+          created_at?: string
+          default_days?: number | null
+          id?: string
+          label: string
+          position?: number
+          process_id: string
+          updated_at?: string
+          workspace_id: string
+        }
+        Update: {
+          created_at?: string
+          default_days?: number | null
+          id?: string
+          label?: string
+          position?: number
+          process_id?: string
+          updated_at?: string
+          workspace_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "process_steps_process_id_fkey"
+            columns: ["process_id"]
+            isOneToOne: false
+            referencedRelation: "processes"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "process_steps_workspace_id_fkey"
+            columns: ["workspace_id"]
+            isOneToOne: false
+            referencedRelation: "workspaces"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      processes: {
+        Row: {
+          category: string | null
+          client_id: string | null
+          created_at: string
+          default_days: number | null
+          description: string | null
+          id: string
+          is_demo: boolean
+          name: string
+          owner: string | null
+          project_id: string | null
+          recurrence: string
+          updated_at: string
+          workspace_id: string
+        }
+        Insert: {
+          category?: string | null
+          client_id?: string | null
+          created_at?: string
+          default_days?: number | null
+          description?: string | null
+          id?: string
+          is_demo?: boolean
+          name: string
+          owner?: string | null
+          project_id?: string | null
+          recurrence?: string
+          updated_at?: string
+          workspace_id: string
+        }
+        Update: {
+          category?: string | null
+          client_id?: string | null
+          created_at?: string
+          default_days?: number | null
+          description?: string | null
+          id?: string
+          is_demo?: boolean
+          name?: string
+          owner?: string | null
+          project_id?: string | null
+          recurrence?: string
+          updated_at?: string
+          workspace_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "processes_client_id_fkey"
+            columns: ["client_id"]
+            isOneToOne: false
+            referencedRelation: "clients"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "processes_project_id_fkey"
+            columns: ["project_id"]
+            isOneToOne: false
+            referencedRelation: "projects"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "processes_workspace_id_fkey"
             columns: ["workspace_id"]
             isOneToOne: false
             referencedRelation: "workspaces"
@@ -1798,6 +2841,219 @@ export type Database = {
           },
           {
             foreignKeyName: "research_items_workspace_id_fkey"
+            columns: ["workspace_id"]
+            isOneToOne: false
+            referencedRelation: "workspaces"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      task_checklist_items: {
+        Row: {
+          created_at: string
+          id: string
+          is_done: boolean
+          label: string
+          position: number
+          task_id: string
+          updated_at: string
+          workspace_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          is_done?: boolean
+          label: string
+          position?: number
+          task_id: string
+          updated_at?: string
+          workspace_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          is_done?: boolean
+          label?: string
+          position?: number
+          task_id?: string
+          updated_at?: string
+          workspace_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "task_checklist_items_task_id_fkey"
+            columns: ["task_id"]
+            isOneToOne: false
+            referencedRelation: "tasks"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "task_checklist_items_workspace_id_fkey"
+            columns: ["workspace_id"]
+            isOneToOne: false
+            referencedRelation: "workspaces"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      tasks: {
+        Row: {
+          client_id: string | null
+          created_at: string
+          creative_id: string | null
+          description: string | null
+          done_at: string | null
+          due_on: string | null
+          id: string
+          is_demo: boolean
+          lead_id: string | null
+          notes: string | null
+          owner: string | null
+          priority: string
+          project_id: string | null
+          recurrence: string
+          recurrence_interval: number | null
+          status: string
+          tags: string[] | null
+          title: string
+          type: string
+          updated_at: string
+          workspace_id: string
+        }
+        Insert: {
+          client_id?: string | null
+          created_at?: string
+          creative_id?: string | null
+          description?: string | null
+          done_at?: string | null
+          due_on?: string | null
+          id?: string
+          is_demo?: boolean
+          lead_id?: string | null
+          notes?: string | null
+          owner?: string | null
+          priority?: string
+          project_id?: string | null
+          recurrence?: string
+          recurrence_interval?: number | null
+          status?: string
+          tags?: string[] | null
+          title: string
+          type?: string
+          updated_at?: string
+          workspace_id: string
+        }
+        Update: {
+          client_id?: string | null
+          created_at?: string
+          creative_id?: string | null
+          description?: string | null
+          done_at?: string | null
+          due_on?: string | null
+          id?: string
+          is_demo?: boolean
+          lead_id?: string | null
+          notes?: string | null
+          owner?: string | null
+          priority?: string
+          project_id?: string | null
+          recurrence?: string
+          recurrence_interval?: number | null
+          status?: string
+          tags?: string[] | null
+          title?: string
+          type?: string
+          updated_at?: string
+          workspace_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "tasks_client_id_fkey"
+            columns: ["client_id"]
+            isOneToOne: false
+            referencedRelation: "clients"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "tasks_creative_id_fkey"
+            columns: ["creative_id"]
+            isOneToOne: false
+            referencedRelation: "creatives"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "tasks_lead_id_fkey"
+            columns: ["lead_id"]
+            isOneToOne: false
+            referencedRelation: "leads"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "tasks_project_id_fkey"
+            columns: ["project_id"]
+            isOneToOne: false
+            referencedRelation: "projects"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "tasks_workspace_id_fkey"
+            columns: ["workspace_id"]
+            isOneToOne: false
+            referencedRelation: "workspaces"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      traffic_routines: {
+        Row: {
+          cadence: string
+          client_id: string
+          created_at: string
+          id: string
+          is_done: boolean
+          label: string
+          last_done_at: string | null
+          owner: string | null
+          position: number
+          updated_at: string
+          workspace_id: string
+        }
+        Insert: {
+          cadence?: string
+          client_id: string
+          created_at?: string
+          id?: string
+          is_done?: boolean
+          label: string
+          last_done_at?: string | null
+          owner?: string | null
+          position?: number
+          updated_at?: string
+          workspace_id: string
+        }
+        Update: {
+          cadence?: string
+          client_id?: string
+          created_at?: string
+          id?: string
+          is_done?: boolean
+          label?: string
+          last_done_at?: string | null
+          owner?: string | null
+          position?: number
+          updated_at?: string
+          workspace_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "traffic_routines_client_id_fkey"
+            columns: ["client_id"]
+            isOneToOne: false
+            referencedRelation: "clients"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "traffic_routines_workspace_id_fkey"
             columns: ["workspace_id"]
             isOneToOne: false
             referencedRelation: "workspaces"
