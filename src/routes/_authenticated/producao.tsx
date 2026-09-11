@@ -24,7 +24,7 @@ export const Route = createFileRoute("/_authenticated/producao")({
       { name: "twitter:card", content: "summary_large_image" },
     ],
   }),
-  component: ProductionBoard;
+  component: ProductionBoard,
 });
 
 type Creative = {
