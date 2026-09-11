@@ -14,9 +14,12 @@ import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/
 import { Route as AuthRouteImport } from './routes/auth'
 import { Route as AuthenticatedDashboardRouteImport } from './routes/_authenticated/dashboard'
 import { Route as AuthenticatedFollowUpsRouteImport } from './routes/_authenticated/follow-ups'
+import { Route as AuthenticatedProducaoRouteImport } from './routes/_authenticated/producao'
 import { Route as AuthenticatedTarefasRouteImport } from './routes/_authenticated/tarefas'
 import { Route as AuthenticatedClientesIndexRouteImport } from './routes/_authenticated/clientes/index'
 import { Route as AuthenticatedClientesIdRouteImport } from './routes/_authenticated/clientes/$id'
+import { Route as AuthenticatedCriativosIndexRouteImport } from './routes/_authenticated/criativos/index'
+import { Route as AuthenticatedCriativosIdRouteImport } from './routes/_authenticated/criativos/$id'
 import { Route as AuthenticatedLeadsIndexRouteImport } from './routes/_authenticated/leads/index'
 import { Route as AuthenticatedLeadsIdRouteImport } from './routes/_authenticated/leads/$id'
 
@@ -44,6 +47,11 @@ const AuthenticatedFollowUpsRoute = AuthenticatedFollowUpsRouteImport.update({
   path: '/follow-ups',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
+const AuthenticatedProducaoRoute = AuthenticatedProducaoRouteImport.update({
+  id: '/producao',
+  path: '/producao',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
 const AuthenticatedTarefasRoute = AuthenticatedTarefasRouteImport.update({
   id: '/tarefas',
   path: '/tarefas',
@@ -60,6 +68,18 @@ const AuthenticatedClientesIdRoute = AuthenticatedClientesIdRouteImport.update({
   path: '/clientes/$id',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
+const AuthenticatedCriativosIndexRoute =
+  AuthenticatedCriativosIndexRouteImport.update({
+    id: '/criativos/',
+    path: '/criativos/',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedCriativosIdRoute =
+  AuthenticatedCriativosIdRouteImport.update({
+    id: '/criativos/$id',
+    path: '/criativos/$id',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
 const AuthenticatedLeadsIndexRoute = AuthenticatedLeadsIndexRouteImport.update({
   id: '/leads/',
   path: '/leads/',
@@ -76,10 +96,13 @@ export interface FileRoutesByFullPath {
   '/auth': typeof AuthRoute
   '/dashboard': typeof AuthenticatedDashboardRoute
   '/follow-ups': typeof AuthenticatedFollowUpsRoute
+  '/producao': typeof AuthenticatedProducaoRoute
   '/tarefas': typeof AuthenticatedTarefasRoute
   '/clientes/$id': typeof AuthenticatedClientesIdRoute
+  '/criativos/$id': typeof AuthenticatedCriativosIdRoute
   '/leads/$id': typeof AuthenticatedLeadsIdRoute
   '/clientes/': typeof AuthenticatedClientesIndexRoute
+  '/criativos/': typeof AuthenticatedCriativosIndexRoute
   '/leads/': typeof AuthenticatedLeadsIndexRoute
 }
 export interface FileRoutesByTo {
@@ -87,10 +110,13 @@ export interface FileRoutesByTo {
   '/auth': typeof AuthRoute
   '/dashboard': typeof AuthenticatedDashboardRoute
   '/follow-ups': typeof AuthenticatedFollowUpsRoute
+  '/producao': typeof AuthenticatedProducaoRoute
   '/tarefas': typeof AuthenticatedTarefasRoute
   '/clientes/$id': typeof AuthenticatedClientesIdRoute
+  '/criativos/$id': typeof AuthenticatedCriativosIdRoute
   '/leads/$id': typeof AuthenticatedLeadsIdRoute
   '/clientes': typeof AuthenticatedClientesIndexRoute
+  '/criativos': typeof AuthenticatedCriativosIndexRoute
   '/leads': typeof AuthenticatedLeadsIndexRoute
 }
 export interface FileRoutesById {
@@ -100,10 +126,13 @@ export interface FileRoutesById {
   '/auth': typeof AuthRoute
   '/_authenticated/dashboard': typeof AuthenticatedDashboardRoute
   '/_authenticated/follow-ups': typeof AuthenticatedFollowUpsRoute
+  '/_authenticated/producao': typeof AuthenticatedProducaoRoute
   '/_authenticated/tarefas': typeof AuthenticatedTarefasRoute
   '/_authenticated/clientes/$id': typeof AuthenticatedClientesIdRoute
+  '/_authenticated/criativos/$id': typeof AuthenticatedCriativosIdRoute
   '/_authenticated/leads/$id': typeof AuthenticatedLeadsIdRoute
   '/_authenticated/clientes/': typeof AuthenticatedClientesIndexRoute
+  '/_authenticated/criativos/': typeof AuthenticatedCriativosIndexRoute
   '/_authenticated/leads/': typeof AuthenticatedLeadsIndexRoute
 }
 export interface FileRouteTypes {
@@ -113,10 +142,13 @@ export interface FileRouteTypes {
     | '/auth'
     | '/dashboard'
     | '/follow-ups'
+    | '/producao'
     | '/tarefas'
     | '/clientes/$id'
+    | '/criativos/$id'
     | '/leads/$id'
     | '/clientes/'
+    | '/criativos/'
     | '/leads/'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -124,10 +156,13 @@ export interface FileRouteTypes {
     | '/auth'
     | '/dashboard'
     | '/follow-ups'
+    | '/producao'
     | '/tarefas'
     | '/clientes/$id'
+    | '/criativos/$id'
     | '/leads/$id'
     | '/clientes'
+    | '/criativos'
     | '/leads'
   id:
     | '__root__'
@@ -136,10 +171,13 @@ export interface FileRouteTypes {
     | '/auth'
     | '/_authenticated/dashboard'
     | '/_authenticated/follow-ups'
+    | '/_authenticated/producao'
     | '/_authenticated/tarefas'
     | '/_authenticated/clientes/$id'
+    | '/_authenticated/criativos/$id'
     | '/_authenticated/leads/$id'
     | '/_authenticated/clientes/'
+    | '/_authenticated/criativos/'
     | '/_authenticated/leads/'
   fileRoutesById: FileRoutesById
 }
@@ -186,6 +224,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedFollowUpsRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/producao': {
+      id: '/_authenticated/producao'
+      path: '/producao'
+      fullPath: '/producao'
+      preLoaderRoute: typeof AuthenticatedProducaoRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_authenticated/tarefas': {
       id: '/_authenticated/tarefas'
       path: '/tarefas'
@@ -205,6 +250,20 @@ declare module '@tanstack/react-router' {
       path: '/clientes/$id'
       fullPath: '/clientes/$id'
       preLoaderRoute: typeof AuthenticatedClientesIdRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/criativos/': {
+      id: '/_authenticated/criativos/'
+      path: '/criativos'
+      fullPath: '/criativos/'
+      preLoaderRoute: typeof AuthenticatedCriativosIndexRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/criativos/$id': {
+      id: '/_authenticated/criativos/$id'
+      path: '/criativos/$id'
+      fullPath: '/criativos/$id'
+      preLoaderRoute: typeof AuthenticatedCriativosIdRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
     '/_authenticated/leads/': {
@@ -227,20 +286,26 @@ declare module '@tanstack/react-router' {
 interface AuthenticatedRouteRouteChildren {
   AuthenticatedDashboardRoute: typeof AuthenticatedDashboardRoute
   AuthenticatedFollowUpsRoute: typeof AuthenticatedFollowUpsRoute
+  AuthenticatedProducaoRoute: typeof AuthenticatedProducaoRoute
   AuthenticatedTarefasRoute: typeof AuthenticatedTarefasRoute
   AuthenticatedClientesIdRoute: typeof AuthenticatedClientesIdRoute
+  AuthenticatedCriativosIdRoute: typeof AuthenticatedCriativosIdRoute
   AuthenticatedLeadsIdRoute: typeof AuthenticatedLeadsIdRoute
   AuthenticatedClientesIndexRoute: typeof AuthenticatedClientesIndexRoute
+  AuthenticatedCriativosIndexRoute: typeof AuthenticatedCriativosIndexRoute
   AuthenticatedLeadsIndexRoute: typeof AuthenticatedLeadsIndexRoute
 }
 
 const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedDashboardRoute: AuthenticatedDashboardRoute,
   AuthenticatedFollowUpsRoute: AuthenticatedFollowUpsRoute,
+  AuthenticatedProducaoRoute: AuthenticatedProducaoRoute,
   AuthenticatedTarefasRoute: AuthenticatedTarefasRoute,
   AuthenticatedClientesIdRoute: AuthenticatedClientesIdRoute,
+  AuthenticatedCriativosIdRoute: AuthenticatedCriativosIdRoute,
   AuthenticatedLeadsIdRoute: AuthenticatedLeadsIdRoute,
   AuthenticatedClientesIndexRoute: AuthenticatedClientesIndexRoute,
+  AuthenticatedCriativosIndexRoute: AuthenticatedCriativosIndexRoute,
   AuthenticatedLeadsIndexRoute: AuthenticatedLeadsIndexRoute,
 }
 
