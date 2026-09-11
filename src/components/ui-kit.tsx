@@ -26,7 +26,7 @@ export function Tag({
   return (
     <Badge
       variant="outline"
-      className={cn("rounded-full font-medium", TONES[tone] ?? TONES.muted, className)}
+      className={cn("rounded-full font-medium", TONES[tone] ?? TONES["muted"], className)}
     >
       {children}
     </Badge>
