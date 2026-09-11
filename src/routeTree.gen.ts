@@ -10,33 +10,243 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
+import { Route as AuthRouteImport } from './routes/auth'
+import { Route as AuthenticatedBibliotecaRouteImport } from './routes/_authenticated/biblioteca'
+import { Route as AuthenticatedConfiguracoesRouteImport } from './routes/_authenticated/configuracoes'
+import { Route as AuthenticatedDashboardRouteImport } from './routes/_authenticated/dashboard'
+import { Route as AuthenticatedFollowUpsRouteImport } from './routes/_authenticated/follow-ups'
+import { Route as AuthenticatedInsightsRouteImport } from './routes/_authenticated/insights'
+import { Route as AuthenticatedPerformanceRouteImport } from './routes/_authenticated/performance'
+import { Route as AuthenticatedProducaoRouteImport } from './routes/_authenticated/producao'
+import { Route as AuthenticatedProjetosRouteImport } from './routes/_authenticated/projetos'
+import { Route as AuthenticatedTarefasRouteImport } from './routes/_authenticated/tarefas'
+import { Route as AuthenticatedClientesIndexRouteImport } from './routes/_authenticated/clientes/index'
+import { Route as AuthenticatedClientesIdRouteImport } from './routes/_authenticated/clientes/$id'
+import { Route as AuthenticatedCriativosIndexRouteImport } from './routes/_authenticated/criativos/index'
+import { Route as AuthenticatedCriativosIdRouteImport } from './routes/_authenticated/criativos/$id'
+import { Route as AuthenticatedLeadsIndexRouteImport } from './routes/_authenticated/leads/index'
+import { Route as AuthenticatedLeadsIdRouteImport } from './routes/_authenticated/leads/$id'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AuthenticatedRouteRoute = AuthenticatedRouteRouteImport.update({
+  id: '/_authenticated',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AuthRoute = AuthRouteImport.update({
+  id: '/auth',
+  path: '/auth',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AuthenticatedBibliotecaRoute = AuthenticatedBibliotecaRouteImport.update({
+  id: '/biblioteca',
+  path: '/biblioteca',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedConfiguracoesRoute =
+  AuthenticatedConfiguracoesRouteImport.update({
+    id: '/configuracoes',
+    path: '/configuracoes',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedDashboardRoute = AuthenticatedDashboardRouteImport.update({
+  id: '/dashboard',
+  path: '/dashboard',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedFollowUpsRoute = AuthenticatedFollowUpsRouteImport.update({
+  id: '/follow-ups',
+  path: '/follow-ups',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedInsightsRoute = AuthenticatedInsightsRouteImport.update({
+  id: '/insights',
+  path: '/insights',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedPerformanceRoute =
+  AuthenticatedPerformanceRouteImport.update({
+    id: '/performance',
+    path: '/performance',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedProducaoRoute = AuthenticatedProducaoRouteImport.update({
+  id: '/producao',
+  path: '/producao',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedProjetosRoute = AuthenticatedProjetosRouteImport.update({
+  id: '/projetos',
+  path: '/projetos',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedTarefasRoute = AuthenticatedTarefasRouteImport.update({
+  id: '/tarefas',
+  path: '/tarefas',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedClientesIndexRoute =
+  AuthenticatedClientesIndexRouteImport.update({
+    id: '/clientes/',
+    path: '/clientes/',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedClientesIdRoute = AuthenticatedClientesIdRouteImport.update({
+  id: '/clientes/$id',
+  path: '/clientes/$id',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedCriativosIndexRoute =
+  AuthenticatedCriativosIndexRouteImport.update({
+    id: '/criativos/',
+    path: '/criativos/',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedCriativosIdRoute =
+  AuthenticatedCriativosIdRouteImport.update({
+    id: '/criativos/$id',
+    path: '/criativos/$id',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedLeadsIndexRoute = AuthenticatedLeadsIndexRouteImport.update({
+  id: '/leads/',
+  path: '/leads/',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedLeadsIdRoute = AuthenticatedLeadsIdRouteImport.update({
+  id: '/leads/$id',
+  path: '/leads/$id',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/auth': typeof AuthRoute
+  '/biblioteca': typeof AuthenticatedBibliotecaRoute
+  '/configuracoes': typeof AuthenticatedConfiguracoesRoute
+  '/dashboard': typeof AuthenticatedDashboardRoute
+  '/follow-ups': typeof AuthenticatedFollowUpsRoute
+  '/insights': typeof AuthenticatedInsightsRoute
+  '/performance': typeof AuthenticatedPerformanceRoute
+  '/producao': typeof AuthenticatedProducaoRoute
+  '/projetos': typeof AuthenticatedProjetosRoute
+  '/tarefas': typeof AuthenticatedTarefasRoute
+  '/clientes/$id': typeof AuthenticatedClientesIdRoute
+  '/criativos/$id': typeof AuthenticatedCriativosIdRoute
+  '/leads/$id': typeof AuthenticatedLeadsIdRoute
+  '/clientes/': typeof AuthenticatedClientesIndexRoute
+  '/criativos/': typeof AuthenticatedCriativosIndexRoute
+  '/leads/': typeof AuthenticatedLeadsIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/auth': typeof AuthRoute
+  '/biblioteca': typeof AuthenticatedBibliotecaRoute
+  '/configuracoes': typeof AuthenticatedConfiguracoesRoute
+  '/dashboard': typeof AuthenticatedDashboardRoute
+  '/follow-ups': typeof AuthenticatedFollowUpsRoute
+  '/insights': typeof AuthenticatedInsightsRoute
+  '/performance': typeof AuthenticatedPerformanceRoute
+  '/producao': typeof AuthenticatedProducaoRoute
+  '/projetos': typeof AuthenticatedProjetosRoute
+  '/tarefas': typeof AuthenticatedTarefasRoute
+  '/clientes/$id': typeof AuthenticatedClientesIdRoute
+  '/criativos/$id': typeof AuthenticatedCriativosIdRoute
+  '/leads/$id': typeof AuthenticatedLeadsIdRoute
+  '/clientes': typeof AuthenticatedClientesIndexRoute
+  '/criativos': typeof AuthenticatedCriativosIndexRoute
+  '/leads': typeof AuthenticatedLeadsIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/_authenticated': typeof AuthenticatedRouteRouteWithChildren
+  '/auth': typeof AuthRoute
+  '/_authenticated/biblioteca': typeof AuthenticatedBibliotecaRoute
+  '/_authenticated/configuracoes': typeof AuthenticatedConfiguracoesRoute
+  '/_authenticated/dashboard': typeof AuthenticatedDashboardRoute
+  '/_authenticated/follow-ups': typeof AuthenticatedFollowUpsRoute
+  '/_authenticated/insights': typeof AuthenticatedInsightsRoute
+  '/_authenticated/performance': typeof AuthenticatedPerformanceRoute
+  '/_authenticated/producao': typeof AuthenticatedProducaoRoute
+  '/_authenticated/projetos': typeof AuthenticatedProjetosRoute
+  '/_authenticated/tarefas': typeof AuthenticatedTarefasRoute
+  '/_authenticated/clientes/$id': typeof AuthenticatedClientesIdRoute
+  '/_authenticated/criativos/$id': typeof AuthenticatedCriativosIdRoute
+  '/_authenticated/leads/$id': typeof AuthenticatedLeadsIdRoute
+  '/_authenticated/clientes/': typeof AuthenticatedClientesIndexRoute
+  '/_authenticated/criativos/': typeof AuthenticatedCriativosIndexRoute
+  '/_authenticated/leads/': typeof AuthenticatedLeadsIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths:
+    | '/'
+    | '/auth'
+    | '/biblioteca'
+    | '/configuracoes'
+    | '/dashboard'
+    | '/follow-ups'
+    | '/insights'
+    | '/performance'
+    | '/producao'
+    | '/projetos'
+    | '/tarefas'
+    | '/clientes/$id'
+    | '/criativos/$id'
+    | '/leads/$id'
+    | '/clientes/'
+    | '/criativos/'
+    | '/leads/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to:
+    | '/'
+    | '/auth'
+    | '/biblioteca'
+    | '/configuracoes'
+    | '/dashboard'
+    | '/follow-ups'
+    | '/insights'
+    | '/performance'
+    | '/producao'
+    | '/projetos'
+    | '/tarefas'
+    | '/clientes/$id'
+    | '/criativos/$id'
+    | '/leads/$id'
+    | '/clientes'
+    | '/criativos'
+    | '/leads'
+  id:
+    | '__root__'
+    | '/'
+    | '/_authenticated'
+    | '/auth'
+    | '/_authenticated/biblioteca'
+    | '/_authenticated/configuracoes'
+    | '/_authenticated/dashboard'
+    | '/_authenticated/follow-ups'
+    | '/_authenticated/insights'
+    | '/_authenticated/performance'
+    | '/_authenticated/producao'
+    | '/_authenticated/projetos'
+    | '/_authenticated/tarefas'
+    | '/_authenticated/clientes/$id'
+    | '/_authenticated/criativos/$id'
+    | '/_authenticated/leads/$id'
+    | '/_authenticated/clientes/'
+    | '/_authenticated/criativos/'
+    | '/_authenticated/leads/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AuthenticatedRouteRoute: typeof AuthenticatedRouteRouteWithChildren
+  AuthRoute: typeof AuthRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -48,11 +258,171 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/_authenticated': {
+      id: '/_authenticated'
+      path: ''
+      fullPath: '/'
+      preLoaderRoute: typeof AuthenticatedRouteRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/auth': {
+      id: '/auth'
+      path: '/auth'
+      fullPath: '/auth'
+      preLoaderRoute: typeof AuthRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/_authenticated/biblioteca': {
+      id: '/_authenticated/biblioteca'
+      path: '/biblioteca'
+      fullPath: '/biblioteca'
+      preLoaderRoute: typeof AuthenticatedBibliotecaRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/configuracoes': {
+      id: '/_authenticated/configuracoes'
+      path: '/configuracoes'
+      fullPath: '/configuracoes'
+      preLoaderRoute: typeof AuthenticatedConfiguracoesRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/dashboard': {
+      id: '/_authenticated/dashboard'
+      path: '/dashboard'
+      fullPath: '/dashboard'
+      preLoaderRoute: typeof AuthenticatedDashboardRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/follow-ups': {
+      id: '/_authenticated/follow-ups'
+      path: '/follow-ups'
+      fullPath: '/follow-ups'
+      preLoaderRoute: typeof AuthenticatedFollowUpsRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/insights': {
+      id: '/_authenticated/insights'
+      path: '/insights'
+      fullPath: '/insights'
+      preLoaderRoute: typeof AuthenticatedInsightsRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/performance': {
+      id: '/_authenticated/performance'
+      path: '/performance'
+      fullPath: '/performance'
+      preLoaderRoute: typeof AuthenticatedPerformanceRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/producao': {
+      id: '/_authenticated/producao'
+      path: '/producao'
+      fullPath: '/producao'
+      preLoaderRoute: typeof AuthenticatedProducaoRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/projetos': {
+      id: '/_authenticated/projetos'
+      path: '/projetos'
+      fullPath: '/projetos'
+      preLoaderRoute: typeof AuthenticatedProjetosRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/tarefas': {
+      id: '/_authenticated/tarefas'
+      path: '/tarefas'
+      fullPath: '/tarefas'
+      preLoaderRoute: typeof AuthenticatedTarefasRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/clientes/': {
+      id: '/_authenticated/clientes/'
+      path: '/clientes'
+      fullPath: '/clientes/'
+      preLoaderRoute: typeof AuthenticatedClientesIndexRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/clientes/$id': {
+      id: '/_authenticated/clientes/$id'
+      path: '/clientes/$id'
+      fullPath: '/clientes/$id'
+      preLoaderRoute: typeof AuthenticatedClientesIdRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/criativos/': {
+      id: '/_authenticated/criativos/'
+      path: '/criativos'
+      fullPath: '/criativos/'
+      preLoaderRoute: typeof AuthenticatedCriativosIndexRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/criativos/$id': {
+      id: '/_authenticated/criativos/$id'
+      path: '/criativos/$id'
+      fullPath: '/criativos/$id'
+      preLoaderRoute: typeof AuthenticatedCriativosIdRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/leads/': {
+      id: '/_authenticated/leads/'
+      path: '/leads'
+      fullPath: '/leads/'
+      preLoaderRoute: typeof AuthenticatedLeadsIndexRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/leads/$id': {
+      id: '/_authenticated/leads/$id'
+      path: '/leads/$id'
+      fullPath: '/leads/$id'
+      preLoaderRoute: typeof AuthenticatedLeadsIdRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
   }
 }
 
+interface AuthenticatedRouteRouteChildren {
+  AuthenticatedBibliotecaRoute: typeof AuthenticatedBibliotecaRoute
+  AuthenticatedConfiguracoesRoute: typeof AuthenticatedConfiguracoesRoute
+  AuthenticatedDashboardRoute: typeof AuthenticatedDashboardRoute
+  AuthenticatedFollowUpsRoute: typeof AuthenticatedFollowUpsRoute
+  AuthenticatedInsightsRoute: typeof AuthenticatedInsightsRoute
+  AuthenticatedPerformanceRoute: typeof AuthenticatedPerformanceRoute
+  AuthenticatedProducaoRoute: typeof AuthenticatedProducaoRoute
+  AuthenticatedProjetosRoute: typeof AuthenticatedProjetosRoute
+  AuthenticatedTarefasRoute: typeof AuthenticatedTarefasRoute
+  AuthenticatedClientesIdRoute: typeof AuthenticatedClientesIdRoute
+  AuthenticatedCriativosIdRoute: typeof AuthenticatedCriativosIdRoute
+  AuthenticatedLeadsIdRoute: typeof AuthenticatedLeadsIdRoute
+  AuthenticatedClientesIndexRoute: typeof AuthenticatedClientesIndexRoute
+  AuthenticatedCriativosIndexRoute: typeof AuthenticatedCriativosIndexRoute
+  AuthenticatedLeadsIndexRoute: typeof AuthenticatedLeadsIndexRoute
+}
+
+const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
+  AuthenticatedBibliotecaRoute: AuthenticatedBibliotecaRoute,
+  AuthenticatedConfiguracoesRoute: AuthenticatedConfiguracoesRoute,
+  AuthenticatedDashboardRoute: AuthenticatedDashboardRoute,
+  AuthenticatedFollowUpsRoute: AuthenticatedFollowUpsRoute,
+  AuthenticatedInsightsRoute: AuthenticatedInsightsRoute,
+  AuthenticatedPerformanceRoute: AuthenticatedPerformanceRoute,
+  AuthenticatedProducaoRoute: AuthenticatedProducaoRoute,
+  AuthenticatedProjetosRoute: AuthenticatedProjetosRoute,
+  AuthenticatedTarefasRoute: AuthenticatedTarefasRoute,
+  AuthenticatedClientesIdRoute: AuthenticatedClientesIdRoute,
+  AuthenticatedCriativosIdRoute: AuthenticatedCriativosIdRoute,
+  AuthenticatedLeadsIdRoute: AuthenticatedLeadsIdRoute,
+  AuthenticatedClientesIndexRoute: AuthenticatedClientesIndexRoute,
+  AuthenticatedCriativosIndexRoute: AuthenticatedCriativosIndexRoute,
+  AuthenticatedLeadsIndexRoute: AuthenticatedLeadsIndexRoute,
+}
+
+const AuthenticatedRouteRouteWithChildren =
+  AuthenticatedRouteRoute._addFileChildren(AuthenticatedRouteRouteChildren)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AuthenticatedRouteRoute: AuthenticatedRouteRouteWithChildren,
+  AuthRoute: AuthRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

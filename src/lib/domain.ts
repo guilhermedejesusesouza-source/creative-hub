@@ -70,6 +70,7 @@ export const FORMATS = [
 ] as const;
 
 export const PRIORITIES = [
+  { value: "urgente", label: "Urgente" },
   { value: "alta", label: "Alta" },
   { value: "media", label: "Média" },
   { value: "baixa", label: "Baixa" },
