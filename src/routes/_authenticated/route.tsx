@@ -1,4 +1,4 @@
-import { Navigate, Outlet, createFileRoute, redirect } from "@tanstack/react-router";
+import { Navigate, Outlet, createFileRoute, redirect, useNavigate } from "@tanstack/react-router";
 import { useState } from "react";
 import { toast } from "sonner";
 
@@ -47,7 +47,8 @@ function AuthenticatedLayout() {
 }
 
 function Onboarding() {
-  const { refresh, user } = useAuth();
+  const { refresh, user, setWorkspaceId } = useAuth();
+  const navigate = useNavigate();
   const [name, setName] = useState("Minha agência");
   const [withDemo, setWithDemo] = useState(true);
   const [busy, setBusy] = useState(false);
@@ -55,16 +56,16 @@ function Onboarding() {
   async function create() {
     setBusy(true);
     // If demo user (no real auth), skip RPC and simulate success
-    if (!user || user.id === 'demo-user') {
-      toast.success('Workspace criado (demo)');
+    if (!user || user.id === "demo-user") {
+      toast.success("Workspace criado (demo)");
       setBusy(false);
-      // Store a mock workspace ID for demo flow
-      if (typeof window !== 'undefined')
-        window.localStorage.setItem('creative-os:workspace', 'demo-workspace');
+      // Set demo workspace ID via context
+      setWorkspaceId("demo-workspace");
       refresh();
+      navigate("/dashboard");
       return;
     }
-    const { error } = await supabase.rpc('create_workspace_with_demo', {
+    const { data, error } = await supabase.rpc("create_workspace_with_demo", {
       _name: name,
       _with_demo: withDemo,
     });
@@ -73,8 +74,13 @@ function Onboarding() {
       toast.error(error.message);
       return;
     }
-    toast.success('Workspace criado!');
+    toast.success("Workspace criado!");
+    // Set the newly created workspace ID if returned
+    if (data && data.id) {
+      setWorkspaceId(data.id);
+    }
     refresh();
+    navigate("/dashboard");
   }
 
   return (

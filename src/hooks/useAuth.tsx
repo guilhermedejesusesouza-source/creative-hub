@@ -28,7 +28,9 @@ const STORAGE_KEY = "creative-os:workspace";
 export function AuthProvider({ children }: { children: ReactNode }) {
   const [session, setSession] = useState<Session | null>(null);
   const [loading, setLoading] = useState(true);
-  const [selected, setSelected] = useState<string | null>(null);
+  const [selected, setSelected] = useState<string | null>(
+    typeof window !== "undefined" ? window.localStorage.getItem(STORAGE_KEY) : null,
+  );
   const qc = useQueryClient();
 
   useEffect(() => {
@@ -36,25 +38,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       if (data.session) {
         setSession(data.session);
       } else {
-        // Mock demo session for unauthenticated flow
-        const mockSession = {
-          user: {
-            id: 'demo-user',
-            email: 'demo@example.com',
-            aud: '',
-            app_metadata: {},
-            user_metadata: {},
-            created_at: new Date().toISOString(),
-            confirmed_at: null,
-            last_sign_in_at: null,
-            role: '',
-            phone: null,
-            email_confirmed_at: null,
-            phone_confirmed_at: null,
-          },
-          // other Session fields can be omitted via casting
-        } as any;
-        setSession(mockSession as Session);
+        // No session, user must authenticate via email magic link
+        setSession(null);
       }
       setLoading(false);
     });
@@ -64,10 +49,6 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     });
     return () => sub.subscription.unsubscribe();
   }, [qc]);
-
-  useEffect(() => {
-    if (typeof window !== "undefined") setSelected(window.localStorage.getItem(STORAGE_KEY));
-  }, []);
 
   const membershipsQuery = useQuery<Membership[]>({
     queryKey: ["memberships", session?.user?.id],
@@ -83,10 +64,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   });
 
   const memberships = membershipsQuery.data ?? [];
-  const workspaceId =
-    memberships.find((m) => m.workspace_id === selected)?.workspace_id ??
-    memberships[0]?.workspace_id ??
-    null;
+  const workspaceId = selected ?? memberships[0]?.workspace_id ?? null;
 
   const value = useMemo<AuthValue>(
     () => ({
@@ -96,7 +74,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       memberships,
       workspaceId,
       workspaceName:
-        memberships.find((m) => m.workspace_id === workspaceId)?.workspaces?.name ?? 'Demo Workspace',
+        memberships.find((m) => m.workspace_id === workspaceId)?.workspaces?.name ??
+        "Demo Workspace",
       role: memberships.find((m) => m.workspace_id === workspaceId)?.role ?? null,
       setWorkspaceId: (id: string) => {
         setSelected(id);
