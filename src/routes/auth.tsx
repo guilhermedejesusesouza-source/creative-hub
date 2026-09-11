@@ -30,6 +30,7 @@ function AuthPage() {
   const [password, setPassword] = useState("");
   const [name, setName] = useState("");
   const [busy, setBusy] = useState(false);
+  const [mode, setMode] = useState<"entrar" | "criar" | "recuperar">("entrar");
 
   useEffect(() => {
     supabase.auth.getSession().then(({ data }) => {
