@@ -124,3 +124,70 @@ export function compressMetaAdsData(ads: Array<Record<string, unknown>>): Array<
     };
   });
 }
+import axios from 'axios';
+import { getMetaToken } from '@/lib/auth/metaTokens';
+
+/** Fetch campaigns for the Meta account */
+export async function fetchMetaCampaigns(workspaceId: string): Promise<Array<{ id: string; name: string }>> {
+  const token = await getMetaToken(workspaceId);
+  if (!token) return [];
+  try {
+    const response = await axios.get('https://graph.facebook.com/v17.0/me/adaccounts', {
+      params: { access_token: token, fields: 'name,account_id' },
+    });
+    const data = response.data?.data || [];
+    return data.map((a: any) => ({ id: a.account_id, name: a.name }));
+  } catch (e) {
+    console.error('Meta campaign fetch error', e);
+    return [];
+  }
+}
+
+/** Fetch ads for a given campaign */
+export async function fetchMetaAds(workspaceId: string, campaignId: string): Promise<any[]> {
+  const token = await getMetaToken(workspaceId);
+  if (!token) return [];
+  try {
+    const response = await axios.get(`https://graph.facebook.com/v17.0/${campaignId}/ads`, {
+      params: {
+        access_token: token,
+        fields: 'id,name,insights.metric(spend,action_values,ctr,video_play_actions)',
+      },
+    });
+    return response.data?.data || [];
+  } catch (e) {
+    console.error('Meta ads fetch error', e);
+    return [];
+  }
+}
+
+/** Sync Meta ads for a workspace – compresses and upserts into Supabase */
+export async function syncMetaAds(workspaceId: string): Promise<boolean> {
+  const campaigns = await fetchMetaCampaigns(workspaceId);
+  if (!campaigns.length) return false;
+  for (const camp of campaigns) {
+    const ads = await fetchMetaAds(workspaceId, camp.id);
+    const compressed = compressMetaAdsData(ads as any);
+    // Upsert each compressed ad
+    const { error } = await supabase
+      .from('workspace_meta_ads' as any)
+      .upsert(
+        compressed.map((c) => ({
+          workspace_id: workspaceId,
+          campaign_id: camp.id,
+          ad_id: c.id,
+          name: c.name,
+          spend: c.spend,
+          roas: c.roas,
+          ctr: c.ctr,
+          hook_rate: c.hookRate,
+        })),
+        { onConflict: 'workspace_id,ad_id' },
+      );
+    if (error) {
+      console.error('Meta upsert error', error);
+      return false;
+    }
+  }
+  return true;
+}

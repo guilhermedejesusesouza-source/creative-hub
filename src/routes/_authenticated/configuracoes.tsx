@@ -10,7 +10,8 @@ import { Label } from "@/components/ui/label";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useAuth } from "@/hooks/useAuth";
 import { useRows } from "@/lib/data";
-import { ROLES, dateBR } from "@/lib/domain";
+import { ROLES, dateBR } from '@/lib/domain';
+import { saveMetaToken } from '@/lib/auth/metaTokens';
 import {
   getMCPIntegrations,
   saveMCPIntegration,
@@ -61,7 +62,25 @@ function SettingsPage() {
   async function handleToggleMcp(provider: MCPProvider, currentStatus: string) {
     if (!workspaceId) return;
     const newStatus = currentStatus === "connected" ? "disconnected" : "connected";
-    const ok = await saveMCPIntegration(workspaceId, provider, newStatus, apiKeyInput);
+    let ok = false;
+    if (provider === "meta") {
+      // Meta integration requires a token stored separately
+      if (newStatus === "connected") {
+        // token should be in apiKeyInput
+        const saved = await saveMetaToken(workspaceId, apiKeyInput);
+        if (!saved) {
+          toast.error("Erro ao salvar token Meta");
+          return;
+        }
+      } else {
+        // Disconnect: clear token
+        await saveMetaToken(workspaceId, "");
+      }
+      ok = await saveMCPIntegration(workspaceId, provider, newStatus);
+    } else {
+      // Existing flow for other providers
+      ok = await saveMCPIntegration(workspaceId, provider, newStatus, apiKeyInput);
+    }
     if (ok) {
       toast.success(
         newStatus === "connected"
