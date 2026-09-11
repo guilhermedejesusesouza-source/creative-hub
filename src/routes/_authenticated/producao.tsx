@@ -17,7 +17,10 @@ export const Route = createFileRoute("/_authenticated/producao")({
   head: () => ({
     meta: [
       { title: "Production Board — Creative OS" },
-      { name: "description", content: "Kanban de produção criativa do backlog à iteração, com arrastar e soltar." },
+      {
+        name: "description",
+        content: "Kanban de produção criativa do backlog à iteração, com arrastar e soltar.",
+      },
       { property: "og:title", content: "Production Board — Creative OS" },
       { property: "og:description", content: "Acompanhe a produção criativa em Kanban." },
       { property: "og:type", content: "website" },
@@ -58,7 +61,8 @@ function ProductionBoard() {
     (c) =>
       (client === "TODOS" || c.client_id === client) && (owner === "TODOS" || c.owner === owner),
   );
-  const clientName = (id: string | null) => (clients.data ?? []).find((c) => c.id === id)?.name ?? "—";
+  const clientName = (id: string | null) =>
+    (clients.data ?? []).find((c) => c.id === id)?.name ?? "—";
 
   return (
     <div className="space-y-5">
@@ -99,7 +103,10 @@ function ProductionBoard() {
       {creatives.isLoading ? (
         <LoadingRows />
       ) : list.length === 0 ? (
-        <EmptyState title="Nenhum criativo no board" description="Crie criativos para vê-los aqui." />
+        <EmptyState
+          title="Nenhum criativo no board"
+          description="Crie criativos para vê-los aqui."
+        />
       ) : (
         <div className="flex gap-3 overflow-x-auto pb-3">
           {CREATIVE_STATUSES.map((status) => {
@@ -134,7 +141,9 @@ function ProductionBoard() {
                         <Tag tone={c.priority === "urgente" ? "destructive" : "muted"}>
                           {c.priority ?? "—"}
                         </Tag>
-                        <span className="text-[11px] text-muted-foreground">{dateBR(c.due_on)}</span>
+                        <span className="text-[11px] text-muted-foreground">
+                          {dateBR(c.due_on)}
+                        </span>
                       </div>
                     </Link>
                   ))}

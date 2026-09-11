@@ -31,7 +31,11 @@ export const Route = createFileRoute("/_authenticated/insights")({
   head: () => ({
     meta: [
       { title: "Insights e Diagnósticos — Creative OS" },
-      { name: "description", content: "Diagnósticos automáticos por cliente e biblioteca de insights com ação recomendada." },
+      {
+        name: "description",
+        content:
+          "Diagnósticos automáticos por cliente e biblioteca de insights com ação recomendada.",
+      },
       { property: "og:title", content: "Insights e Diagnósticos — Creative OS" },
       { property: "og:description", content: "Transforme dados em próximos testes." },
       { property: "og:type", content: "website" },
@@ -67,7 +71,8 @@ function InsightsPage() {
   );
   const save = useSaveRow("insights", { success: "Insight atualizado" });
 
-  const clientName = (id: string | null) => (clients.data ?? []).find((c) => c.id === id)?.name ?? "—";
+  const clientName = (id: string | null) =>
+    (clients.data ?? []).find((c) => c.id === id)?.name ?? "—";
 
   const perClient = (clients.data ?? []).map((c) => {
     const rows = (perf.data ?? []).filter((p) => p.client_id === c.id);
@@ -95,7 +100,10 @@ function InsightsPage() {
             Baseado nos números registrados. São indícios para investigação, não causas comprovadas.
           </p>
           {perClient.every((p) => p.diags.length === 0) ? (
-            <EmptyState title="Sem dados suficientes" description="Registre performance para gerar diagnósticos." />
+            <EmptyState
+              title="Sem dados suficientes"
+              description="Registre performance para gerar diagnósticos."
+            />
           ) : (
             perClient
               .filter((p) => p.diags.length > 0)
@@ -120,14 +128,19 @@ function InsightsPage() {
           {insights.isLoading ? (
             <LoadingRows />
           ) : (insights.data ?? []).length === 0 ? (
-            <EmptyState title="Nenhum insight registrado" description="Crie o primeiro insight a partir dos dados." />
+            <EmptyState
+              title="Nenhum insight registrado"
+              description="Crie o primeiro insight a partir dos dados."
+            />
           ) : (
             <ul className="grid gap-3 md:grid-cols-2">
               {(insights.data ?? []).map((i) => (
                 <li key={i.id} className="surface-panel p-4">
                   <div className="flex items-start justify-between gap-2">
                     <p className="text-sm font-semibold">{i.title}</p>
-                    <Tag tone={i.priority === "urgente" ? "destructive" : "muted"}>{i.priority ?? "—"}</Tag>
+                    <Tag tone={i.priority === "urgente" ? "destructive" : "muted"}>
+                      {i.priority ?? "—"}
+                    </Tag>
                   </div>
                   <p className="text-xs text-muted-foreground">{clientName(i.client_id)}</p>
                   <dl className="mt-3 space-y-2 text-sm">
@@ -138,13 +151,17 @@ function InsightsPage() {
                       ["Ação recomendada", i.action],
                     ].map(([k, v]) => (
                       <div key={String(k)}>
-                        <dt className="text-[11px] uppercase tracking-wide text-muted-foreground">{k}</dt>
+                        <dt className="text-[11px] uppercase tracking-wide text-muted-foreground">
+                          {k}
+                        </dt>
                         <dd className="mt-0.5">{v ?? "—"}</dd>
                       </div>
                     ))}
                   </dl>
                   <div className="mt-3 flex items-center justify-between">
-                    <span className="text-[11px] text-muted-foreground">{dateBR(i.created_at)}</span>
+                    <span className="text-[11px] text-muted-foreground">
+                      {dateBR(i.created_at)}
+                    </span>
                     <Select
                       value={i.status ?? "ABERTO"}
                       onValueChange={(v) => save.mutate({ id: i.id, status: v })}
@@ -222,7 +239,12 @@ function NewInsightDialog({ clients }: { clients: { id: string; name: string }[]
         <form className="space-y-3" onSubmit={submit}>
           <div className="space-y-1.5">
             <Label htmlFor="i-title">Título *</Label>
-            <Input id="i-title" required value={form.title} onChange={(e) => set("title", e.target.value)} />
+            <Input
+              id="i-title"
+              required
+              value={form.title}
+              onChange={(e) => set("title", e.target.value)}
+            />
           </div>
           <div className="grid gap-3 sm:grid-cols-2">
             <div className="space-y-1.5">

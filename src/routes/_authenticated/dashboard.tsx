@@ -40,7 +40,8 @@ export const Route = createFileRoute("/_authenticated/dashboard")({
       { title: "Dashboard — Creative OS" },
       {
         name: "description",
-        content: "Visão executiva e operacional: tarefas, follow-ups, produção criativa e performance.",
+        content:
+          "Visão executiva e operacional: tarefas, follow-ups, produção criativa e performance.",
       },
       { property: "og:title", content: "Dashboard — Creative OS" },
       { property: "og:description", content: "Central de comando da operação." },
@@ -59,10 +60,34 @@ type Task = {
   priority: string;
   client_id: string | null;
 };
-type FollowUp = { id: string; number: number; due_on: string; status: string; lead_id: string | null };
-type Creative = { id: string; name: string; code: string | null; status: string; client_id: string | null };
-type Client = { id: string; name: string; status: string; health: string; monthly_value: number | null };
-type Lead = { id: string; name: string; stage: string; score: number; potential_value: number | null };
+type FollowUp = {
+  id: string;
+  number: number;
+  due_on: string;
+  status: string;
+  lead_id: string | null;
+};
+type Creative = {
+  id: string;
+  name: string;
+  code: string | null;
+  status: string;
+  client_id: string | null;
+};
+type Client = {
+  id: string;
+  name: string;
+  status: string;
+  health: string;
+  monthly_value: number | null;
+};
+type Lead = {
+  id: string;
+  name: string;
+  stage: string;
+  score: number;
+  potential_value: number | null;
+};
 type Perf = {
   id: string;
   creative_id: string | null;
@@ -81,18 +106,30 @@ type Perf = {
 function Dashboard() {
   const { workspaceId } = useAuth();
   const tasks = useRows<Task>("tasks", workspaceId, { orderBy: "due_on", ascending: true });
-  const follows = useRows<FollowUp>("follow_ups", workspaceId, { orderBy: "due_on", ascending: true });
+  const follows = useRows<FollowUp>("follow_ups", workspaceId, {
+    orderBy: "due_on",
+    ascending: true,
+  });
   const creatives = useRows<Creative>("creatives", workspaceId);
   const clients = useRows<Client>("clients", workspaceId, { orderBy: "name", ascending: true });
   const leads = useRows<Lead>("leads", workspaceId);
-  const perf = useRows<Perf>("performances", workspaceId, { orderBy: "period_start", ascending: true });
+  const perf = useRows<Perf>("performances", workspaceId, {
+    orderBy: "period_start",
+    ascending: true,
+  });
 
   const loading =
-    tasks.isLoading || creatives.isLoading || clients.isLoading || leads.isLoading || perf.isLoading;
+    tasks.isLoading ||
+    creatives.isLoading ||
+    clients.isLoading ||
+    leads.isLoading ||
+    perf.isLoading;
 
   if (loading) return <LoadingRows rows={8} />;
 
-  const openTasks = (tasks.data ?? []).filter((t) => t.status !== "CONCLUIDA" && t.status !== "CANCELADA");
+  const openTasks = (tasks.data ?? []).filter(
+    (t) => t.status !== "CONCLUIDA" && t.status !== "CANCELADA",
+  );
   const todayTasks = openTasks.filter((t) => isToday(t.due_on));
   const lateTasks = openTasks.filter((t) => isOverdue(t.due_on));
   const openFollows = (follows.data ?? []).filter(
@@ -154,7 +191,11 @@ function Dashboard() {
       />
 
       <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
-        <StatCard label="Tarefas hoje" value={todayTasks.length} hint={`${openTasks.length} abertas`} />
+        <StatCard
+          label="Tarefas hoje"
+          value={todayTasks.length}
+          hint={`${openTasks.length} abertas`}
+        />
         <StatCard
           label="Tarefas atrasadas"
           value={lateTasks.length}
@@ -185,7 +226,12 @@ function Dashboard() {
         <StatCard label="CTR médio" value={pct(metrics.ctr)} />
         <StatCard label="CPC médio" value={brl(metrics.cpc)} />
         <StatCard label="CPL / CPA" value={`${brl(metrics.cpl)} / ${brl(metrics.cpa)}`} />
-        <StatCard label="ROAS" value={dec(metrics.roas)} tone="neon" hint={`Investido ${brl(metrics.spend)}`} />
+        <StatCard
+          label="ROAS"
+          value={dec(metrics.roas)}
+          tone="neon"
+          hint={`Investido ${brl(metrics.spend)}`}
+        />
       </div>
 
       <div className="grid gap-4 lg:grid-cols-2">
@@ -198,9 +244,21 @@ function Dashboard() {
               <ResponsiveContainer width="100%" height="100%">
                 <BarChart data={byStatus}>
                   <CartesianGrid strokeDasharray="3 3" stroke="var(--border)" />
-                  <XAxis dataKey="status" tick={{ fontSize: 10 }} interval={0} angle={-30} height={60} textAnchor="end" />
+                  <XAxis
+                    dataKey="status"
+                    tick={{ fontSize: 10 }}
+                    interval={0}
+                    angle={-30}
+                    height={60}
+                    textAnchor="end"
+                  />
                   <YAxis tick={{ fontSize: 11 }} allowDecimals={false} />
-                  <Tooltip contentStyle={{ background: "var(--popover)", border: "1px solid var(--border)" }} />
+                  <Tooltip
+                    contentStyle={{
+                      background: "var(--popover)",
+                      border: "1px solid var(--border)",
+                    }}
+                  />
                   <Bar dataKey="total" fill="var(--chart-1)" radius={[4, 4, 0, 0]} />
                 </BarChart>
               </ResponsiveContainer>
@@ -211,7 +269,9 @@ function Dashboard() {
         <section className="surface-panel p-4">
           <h2 className="text-sm font-semibold">Investimento x receita</h2>
           {timeline.length === 0 ? (
-            <p className="py-8 text-center text-sm text-muted-foreground">Sem performance registrada.</p>
+            <p className="py-8 text-center text-sm text-muted-foreground">
+              Sem performance registrada.
+            </p>
           ) : (
             <div className="mt-4 h-64">
               <ResponsiveContainer width="100%" height="100%">
@@ -219,9 +279,26 @@ function Dashboard() {
                   <CartesianGrid strokeDasharray="3 3" stroke="var(--border)" />
                   <XAxis dataKey="date" tick={{ fontSize: 10 }} />
                   <YAxis tick={{ fontSize: 11 }} />
-                  <Tooltip contentStyle={{ background: "var(--popover)", border: "1px solid var(--border)" }} />
-                  <Line type="monotone" dataKey="spend" stroke="var(--chart-3)" strokeWidth={2} dot={false} />
-                  <Line type="monotone" dataKey="revenue" stroke="var(--chart-2)" strokeWidth={2} dot={false} />
+                  <Tooltip
+                    contentStyle={{
+                      background: "var(--popover)",
+                      border: "1px solid var(--border)",
+                    }}
+                  />
+                  <Line
+                    type="monotone"
+                    dataKey="spend"
+                    stroke="var(--chart-3)"
+                    strokeWidth={2}
+                    dot={false}
+                  />
+                  <Line
+                    type="monotone"
+                    dataKey="revenue"
+                    stroke="var(--chart-2)"
+                    strokeWidth={2}
+                    dot={false}
+                  />
                 </LineChart>
               </ResponsiveContainer>
             </div>
@@ -272,7 +349,9 @@ function Dashboard() {
                     {creative.name}
                   </span>
                   <span className="flex items-center gap-2">
-                    <span className="text-xs text-muted-foreground">{num(m.impressions)} impr.</span>
+                    <span className="text-xs text-muted-foreground">
+                      {num(m.impressions)} impr.
+                    </span>
                     <Tag tone={m.roas >= 2 ? "neon" : "muted"}>ROAS {dec(m.roas)}</Tag>
                   </span>
                 </Link>
@@ -316,7 +395,10 @@ function Dashboard() {
           </p>
           <div className="mt-3 space-y-2">
             {diagnoses.length === 0 ? (
-              <EmptyState title="Sem diagnósticos" description="Registre performance para receber diagnósticos." />
+              <EmptyState
+                title="Sem diagnósticos"
+                description="Registre performance para receber diagnósticos."
+              />
             ) : (
               diagnoses.slice(0, 5).map((d, i) => (
                 <div key={i} className="rounded-lg border border-border px-3 py-2">

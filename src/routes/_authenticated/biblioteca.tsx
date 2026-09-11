@@ -19,7 +19,10 @@ export const Route = createFileRoute("/_authenticated/biblioteca")({
   head: () => ({
     meta: [
       { title: "Biblioteca criativa — Creative OS" },
-      { name: "description", content: "Criativos publicados e em produção, ângulos, hooks e copies reutilizáveis." },
+      {
+        name: "description",
+        content: "Criativos publicados e em produção, ângulos, hooks e copies reutilizáveis.",
+      },
       { property: "og:title", content: "Biblioteca criativa — Creative OS" },
       { property: "og:description", content: "Reaproveite o que já funcionou." },
       { property: "og:type", content: "website" },
@@ -41,16 +44,19 @@ function LibraryPage() {
     thumbnail_url: string | null;
     is_demo: boolean | null;
   }>("creatives", workspaceId, { orderBy: "created_at" });
-  const angles = useRows<{ id: string; name: string; category: string | null; description: string | null; when_to_use: string | null }>(
-    "angles",
-    workspaceId,
-    { orderBy: "name", ascending: true },
-  );
-  const hooks = useRows<{ id: string; text: string; category: string | null; is_favorite: boolean | null }>(
-    "hooks",
-    workspaceId,
-    { orderBy: "created_at" },
-  );
+  const angles = useRows<{
+    id: string;
+    name: string;
+    category: string | null;
+    description: string | null;
+    when_to_use: string | null;
+  }>("angles", workspaceId, { orderBy: "name", ascending: true });
+  const hooks = useRows<{
+    id: string;
+    text: string;
+    category: string | null;
+    is_favorite: boolean | null;
+  }>("hooks", workspaceId, { orderBy: "created_at" });
   const copies = useRows<{
     id: string;
     headline: string | null;
@@ -59,11 +65,13 @@ function LibraryPage() {
     funnel: string | null;
     created_at: string;
   }>("copy_items", workspaceId, { orderBy: "created_at" });
-  const assets = useRows<{ id: string; name: string; type: string | null; url: string | null; created_at: string }>(
-    "assets",
-    workspaceId,
-    { orderBy: "created_at" },
-  );
+  const assets = useRows<{
+    id: string;
+    name: string;
+    type: string | null;
+    url: string | null;
+    created_at: string;
+  }>("assets", workspaceId, { orderBy: "created_at" });
 
   const [q, setQ] = useState("");
   const [status, setStatus] = useState("TODOS");
@@ -123,14 +131,23 @@ function LibraryPage() {
                 <li key={c.id} className="surface-panel overflow-hidden">
                   <div className="flex aspect-video items-center justify-center bg-muted/40">
                     {c.thumbnail_url ? (
-                      <img src={c.thumbnail_url} alt={c.name} className="size-full object-cover" loading="lazy" />
+                      <img
+                        src={c.thumbnail_url}
+                        alt={c.name}
+                        className="size-full object-cover"
+                        loading="lazy"
+                      />
                     ) : (
                       <span className="text-xs text-muted-foreground">Sem prévia</span>
                     )}
                   </div>
                   <div className="p-3">
                     <p className="text-[11px] text-muted-foreground">{c.code}</p>
-                    <Link to="/criativos/$id" params={{ id: c.id }} className="text-sm font-medium hover:text-primary">
+                    <Link
+                      to="/criativos/$id"
+                      params={{ id: c.id }}
+                      className="text-sm font-medium hover:text-primary"
+                    >
                       {c.name}
                     </Link>
                     {c.is_demo ? <DemoTag /> : null}
@@ -199,7 +216,9 @@ function LibraryPage() {
                   <div className="mt-3 flex items-center gap-2">
                     {c.cta ? <Tag tone="primary">{c.cta}</Tag> : null}
                     {c.funnel ? <Tag>{c.funnel}</Tag> : null}
-                    <span className="text-[11px] text-muted-foreground">{dateBR(c.created_at)}</span>
+                    <span className="text-[11px] text-muted-foreground">
+                      {dateBR(c.created_at)}
+                    </span>
                   </div>
                 </li>
               ))}

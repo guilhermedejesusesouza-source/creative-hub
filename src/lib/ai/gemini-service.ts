@@ -13,7 +13,7 @@ import type {
  */
 export async function generateCreativeHooks(
   input: GenerateHooksInput,
-  apiKey?: string
+  apiKey?: string,
 ): Promise<{ hooks: GeneratedHook[]; cached: boolean }> {
   const cacheKey = await computeHash({
     action: "generate_hooks",
@@ -28,14 +28,18 @@ export async function generateCreativeHooks(
   const cached = await getCachedAIResponse<GeneratedHook[]>(
     input.workspaceId,
     "gemini-flash",
-    cacheKey
+    cacheKey,
   );
   if (cached && cached.length > 0) {
     return { hooks: cached, cached: true };
   }
 
   // 2. If API Key is provided, call Google Gemini Flash API with compact structured output
-  const key = apiKey || (typeof process !== "undefined" ? process.env["VITE_GEMINI_API_KEY"] || process.env["GEMINI_API_KEY"] : "");
+  const key =
+    apiKey ||
+    (typeof process !== "undefined"
+      ? process.env["VITE_GEMINI_API_KEY"] || process.env["GEMINI_API_KEY"]
+      : "");
 
   let hooks: GeneratedHook[] = [];
 
@@ -115,7 +119,7 @@ Quantidade: ${input.count || 4}`;
     cacheKey,
     hooks,
     `Hooks para ${input.clientName} - ${input.productName}`,
-    180
+    180,
   );
 
   return { hooks, cached: false };
@@ -126,7 +130,7 @@ Quantidade: ${input.count || 4}`;
  */
 export async function diagnoseCreativePerformance(
   input: DiagnosePerformanceInput,
-  apiKey?: string
+  apiKey?: string,
 ): Promise<{ diagnosis: PerformanceDiagnosis; cached: boolean }> {
   const cacheKey = await computeHash({
     action: "diagnose_performance",
@@ -140,7 +144,7 @@ export async function diagnoseCreativePerformance(
   const cached = await getCachedAIResponse<PerformanceDiagnosis>(
     input.workspaceId,
     "gemini-flash",
-    cacheKey
+    cacheKey,
   );
   if (cached) {
     return { diagnosis: cached, cached: true };
@@ -155,13 +159,19 @@ export async function diagnoseCreativePerformance(
   if (input.roas >= 2.5 && input.ctr >= 1.2) {
     status = "vencedor";
     score = 88;
-    recommendations.push("Criativo vencedor validado. Duplicar e testar escala horizontal de orçamento.");
-    recommendations.push("Produzir 3 variações apenas dos primeiros 3 segundos (hooks alternativos).");
+    recommendations.push(
+      "Criativo vencedor validado. Duplicar e testar escala horizontal de orçamento.",
+    );
+    recommendations.push(
+      "Produzir 3 variações apenas dos primeiros 3 segundos (hooks alternativos).",
+    );
   } else if (input.ctr < 0.8) {
     status = "atencao";
     bottleneck = "hook";
     score = 42;
-    recommendations.push("CTR baixo indica que os primeiros 3 segundos não estão retendo a atenção.");
+    recommendations.push(
+      "CTR baixo indica que os primeiros 3 segundos não estão retendo a atenção.",
+    );
     recommendations.push("Trocar o hook de abertura e testar formato com texto dinâmico na tela.");
   } else if (input.roas < 1.0 && input.spend > 100) {
     status = "reprovar";
@@ -181,7 +191,7 @@ export async function diagnoseCreativePerformance(
     bottleneck,
     score,
     recommendations,
-    iterationIdea: `Criar variação B mantendo o corpo do anúncio, mas substituindo o gancho inicial por um ângulo focado em "${bottleneck === 'hook' ? 'quebra de padrão' : 'prova social'}".`,
+    iterationIdea: `Criar variação B mantendo o corpo do anúncio, mas substituindo o gancho inicial por um ângulo focado em "${bottleneck === "hook" ? "quebra de padrão" : "prova social"}".`,
   };
 
   await setCachedAIResponse(
@@ -190,7 +200,7 @@ export async function diagnoseCreativePerformance(
     cacheKey,
     diagnosis,
     `Diagnóstico de ${input.adName} (${input.platform})`,
-    250
+    250,
   );
 
   return { diagnosis, cached: false };

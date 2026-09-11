@@ -19,19 +19,22 @@ export async function getMCPIntegrations(workspaceId: string): Promise<MCPIntegr
     {
       provider: "meta",
       name: "Meta Marketing & Ads MCP",
-      description: "Sincroniza criativos, ad sets, campanhas e métricas (CTR, ROAS, Thumbstop) do Facebook e Instagram Ads.",
+      description:
+        "Sincroniza criativos, ad sets, campanhas e métricas (CTR, ROAS, Thumbstop) do Facebook e Instagram Ads.",
       status: "disconnected",
     },
     {
       provider: "google",
       name: "Google Ads & Workspace MCP",
-      description: "Conecta campanhas de Search/PMax do Google Ads e importa briefings do Google Drive.",
+      description:
+        "Conecta campanhas de Search/PMax do Google Ads e importa briefings do Google Drive.",
       status: "disconnected",
     },
     {
       provider: "gemini",
       name: "Google Gemini 2.5/3.8 Flash AI",
-      description: "Motor multimodal para geração ultra-rápida de ganchos, cópias e diagnósticos de anúncios.",
+      description:
+        "Motor multimodal para geração ultra-rápida de ganchos, cópias e diagnósticos de anúncios.",
       status: "connected",
     },
   ];
@@ -69,7 +72,7 @@ export async function saveMCPIntegration(
   provider: MCPProvider,
   status: "connected" | "disconnected",
   accountId?: string,
-  settings: Record<string, unknown> = {}
+  settings: Record<string, unknown> = {},
 ): Promise<boolean> {
   try {
     const { error } = await supabase.from("mcp_integrations" as any).upsert(
@@ -81,7 +84,7 @@ export async function saveMCPIntegration(
         settings,
         last_synced_at: status === "connected" ? new Date().toISOString() : null,
       },
-      { onConflict: "workspace_id,provider" }
+      { onConflict: "workspace_id,provider" },
     );
 
     return !error;
@@ -105,7 +108,9 @@ export function compressMetaAdsData(ads: Array<Record<string, unknown>>): Array<
   return ads.map((ad) => {
     const insights = (ad.insights as any)?.data?.[0] || ad;
     const spend = Number(insights.spend || 0);
-    const purchaseVal = Number(insights.action_values?.find((a: any) => a.action_type === "purchase")?.value || 0);
+    const purchaseVal = Number(
+      insights.action_values?.find((a: any) => a.action_type === "purchase")?.value || 0,
+    );
     const roas = spend > 0 ? purchaseVal / spend : 0;
     const ctr = Number(insights.ctr || 0);
 

@@ -22,7 +22,10 @@ export const Route = createFileRoute("/_authenticated/configuracoes")({
   head: () => ({
     meta: [
       { title: "Configurações — Creative OS" },
-      { name: "description", content: "Workspace, equipe, papéis e integrações MCP de IA (Meta e Google)." },
+      {
+        name: "description",
+        content: "Workspace, equipe, papéis e integrações MCP de IA (Meta e Google).",
+      },
       { property: "og:title", content: "Configurações — Creative OS" },
       { property: "og:description", content: "Ajuste workspace, equipe e integrações de IA/MCP." },
       { property: "og:type", content: "website" },
@@ -63,7 +66,7 @@ function SettingsPage() {
       toast.success(
         newStatus === "connected"
           ? `${provider.toUpperCase()} MCP conectado com sucesso!`
-          : `${provider.toUpperCase()} MCP desconectado.`
+          : `${provider.toUpperCase()} MCP desconectado.`,
       );
       const updated = await getMCPIntegrations(workspaceId);
       setMcpList(updated);
@@ -98,8 +101,9 @@ function SettingsPage() {
               </p>
             </div>
             <p className="mt-1 text-xs text-muted-foreground">
-              O Creative OS utiliza agregação prévia de dados no client e cache semântico no Supabase.
-              Chamadas de métricas e ganchos idênticos não consomem tokens repetidos da sua cota.
+              O Creative OS utiliza agregação prévia de dados no client e cache semântico no
+              Supabase. Chamadas de métricas e ganchos idênticos não consomem tokens repetidos da
+              sua cota.
             </p>
           </div>
 
@@ -107,10 +111,7 @@ function SettingsPage() {
             {mcpList.map((mcp) => {
               const isConnected = mcp.status === "connected";
               return (
-                <div
-                  key={mcp.provider}
-                  className="surface-panel flex flex-col justify-between p-4"
-                >
+                <div key={mcp.provider} className="surface-panel flex flex-col justify-between p-4">
                   <div className="space-y-2">
                     <div className="flex items-start justify-between gap-2">
                       <div className="flex items-center gap-2">
@@ -166,7 +167,8 @@ function SettingsPage() {
                 </Button>
               </div>
               <p className="text-xs text-muted-foreground">
-                Informe o token de acesso ou chave da API (será armazenada com segurança no seu workspace):
+                Informe o token de acesso ou chave da API (será armazenada com segurança no seu
+                workspace):
               </p>
               <div className="space-y-1.5">
                 <Label htmlFor="mcp-key">Token / Chave de Acesso</Label>
@@ -177,8 +179,8 @@ function SettingsPage() {
                     selectedMcp.provider === "meta"
                       ? "EAAG... (Meta Graph Token)"
                       : selectedMcp.provider === "gemini"
-                      ? "AIzaSy... (Google Gemini Key)"
-                      : "Token do Google Ads / OAuth"
+                        ? "AIzaSy... (Google Gemini Key)"
+                        : "Token do Google Ads / OAuth"
                   }
                   value={apiKeyInput}
                   onChange={(e) => setApiKeyInput(e.target.value)}
@@ -216,7 +218,8 @@ function SettingsPage() {
               </p>
             </div>
             <p className="text-xs text-muted-foreground">
-              Todos os dados são isolados por workspace: ninguém de fora vê seus clientes, leads ou criativos.
+              Todos os dados são isolados por workspace: ninguém de fora vê seus clientes, leads ou
+              criativos.
             </p>
           </section>
         </TabsContent>
@@ -259,7 +262,9 @@ function SettingsPage() {
                 <li key={m.id} className="flex items-center justify-between gap-3 px-4 py-3">
                   <div>
                     <p className="text-sm">{m.user_id === user?.id ? user?.email : m.user_id}</p>
-                    <p className="text-[11px] text-muted-foreground">Desde {dateBR(m.created_at)}</p>
+                    <p className="text-[11px] text-muted-foreground">
+                      Desde {dateBR(m.created_at)}
+                    </p>
                   </div>
                   <Tag tone={m.role === "admin" ? "primary" : "muted"}>
                     {ROLES.find((r) => r.value === m.role)?.label ?? m.role}

@@ -6,6 +6,7 @@ OBJETIVO DO PRODUTO
 O Creative OS deve transformar o processo: Briefing → Diagnóstico → Estratégia → Ângulo → Hook → Copy → Conceito → Direção Criativa → Produção → QA → Aprovação → Publicação → Performance → Inteligência → Iteração. A V1 deve ser realmente navegável e funcional, com banco de dados, CRUDs, estados, filtros, busca, formulários, Kanban, dashboards e dados demo coerentes. Não faça apenas uma landing page/mockup.
 
 STACK E ARQUITETURA
+
 - Use o stack full-stack padrão do Lovable, TypeScript, React, Tailwind e shadcn/ui.
 - Use backend/database/auth de forma nativa e preparada para produção.
 - Estruture o código em componentes reutilizáveis, hooks, services e tipos bem definidos.
@@ -19,6 +20,7 @@ Crie uma interface premium de SaaS B2B, moderna, limpa e muito profissional, com
 Layout principal com sidebar recolhível, header, busca global CMD/CTRL+K e área de conteúdo. Deve ser responsivo para desktop, tablet e mobile. Priorize usabilidade para uma operação diária de agência/tráfego.
 
 NAVEGAÇÃO PRINCIPAL
+
 1. Dashboard
 2. Clientes
 3. Projetos
@@ -41,6 +43,7 @@ NAVEGAÇÃO PRINCIPAL
 
 DASHBOARD
 Mostrar visão executiva e operacional:
+
 - Criativos em produção
 - Aguardando aprovação
 - Publicados
@@ -63,6 +66,7 @@ Permitir CRUD, busca, filtros e visualização detalhada.
 
 MASTER BRIEF
 Criar briefing guiado em múltiplas etapas:
+
 1. Negócio
 2. Produto/Serviço
 3. Oferta
@@ -77,12 +81,13 @@ Criar briefing guiado em múltiplas etapas:
 12. Formatos/plataformas
 13. Referências
 14. Restrições
-Salvar como rascunho e finalizar.
-Níveis de consciência: Unaware, Problem Aware, Solution Aware, Product Aware, Most Aware.
-Funil: TOFU, MOFU, BOFU, Remarketing.
+    Salvar como rascunho e finalizar.
+    Níveis de consciência: Unaware, Problem Aware, Solution Aware, Product Aware, Most Aware.
+    Funil: TOFU, MOFU, BOFU, Remarketing.
 
 CREATIVE MATRIX
 Criar uma matriz cruzando:
+
 - Público
 - Nível de consciência
 - Funil
@@ -92,7 +97,7 @@ Criar uma matriz cruzando:
 - Formato
 - Plataforma
 - Hipótese
-Permitir gerar/organizar oportunidades e abrir um novo criativo diretamente da matriz.
+  Permitir gerar/organizar oportunidades e abrir um novo criativo diretamente da matriz.
 
 ÂNGULOS
 Biblioteca com categorias: Pain, Desire, Benefit, Mechanism, Error, Objection, Proof, Comparison, Demonstration, Offer, Novelty, Contrarian.
@@ -110,6 +115,7 @@ Criar fluxo guiado:
 Brief → Estratégia → Hipótese → Ângulo → Hook → Copy → Conceito → Direção → Produção.
 Cada criativo deve possuir ID automático no formato C-000001.
 Campos principais:
+
 - nome
 - cliente
 - projeto
@@ -154,6 +160,7 @@ Todo criativo deve suportar versões. Registrar versão, alterações, autor, da
 Fluxo de aprovação com aprovar, solicitar alteração, rejeitar e comentários.
 Histórico de aprovação e atividade.
 Permissões:
+
 - Admin
 - Strategist
 - Copywriter
@@ -161,7 +168,7 @@ Permissões:
 - Editor
 - Traffic Manager
 - Client
-O cliente deve ter acesso somente ao que lhe pertence e ações permitidas.
+  O cliente deve ter acesso somente ao que lhe pertence e ações permitidas.
 
 CREATIVE LIBRARY E ASSETS
 Biblioteca visual de criativos publicados/em produção, com thumbnails, filtros, tags e metadados.
@@ -176,6 +183,7 @@ Preparar modelo para importação futura via API.
 
 CREATIVE SCORE
 Calcular score de qualidade de 0 a 100 usando:
+
 - Clarity of offer 20
 - Hook 20
 - Visual hierarchy 15
@@ -184,7 +192,7 @@ Calcular score de qualidade de 0 a 100 usando:
 - Proof/credibility 10
 - CTA 5
 - Platform fit 5
-Mostrar score, breakdown e recomendações.
+  Mostrar score, breakdown e recomendações.
 
 PERFORMANCE SCORE
 Criar score separado para desempenho baseado nos dados disponíveis. Não confundir qualidade criativa com performance.
@@ -192,13 +200,14 @@ Criar score separado para desempenho baseado nos dados disponíveis. Não confun
 CREATIVE INTELLIGENCE
 Criar rankings e diagnósticos automáticos com base nos dados cadastrados.
 Exemplos de regras:
+
 - CTR baixo → provável problema de hook/conceito
 - CTR alto + CVR baixo → desalinhamento entre promessa, oferta e landing page
 - CTR alto + CPA baixo → potencial vencedor
 - CPM alto → investigar audiência/posicionamento
 - CPC alto com CTR baixo → revisar hook e relevância
 - Boa performance com baixo volume → oportunidade de escala/teste
-Mostrar explicações e ações sugeridas, sem afirmar causalidade absoluta.
+  Mostrar explicações e ações sugeridas, sem afirmar causalidade absoluta.
 
 INSIGHTS E ITERAÇÃO
 Permitir criar insight com título, observação, evidência, hipótese, ação recomendada, prioridade, status e vínculo a criativos.
@@ -221,6 +230,7 @@ User, Organization/Workspace, Client, Project, Product, Offer, Brief, ICP, VOCIt
 Use IDs/foreign keys e timestamps. Inclua created_at/updated_at quando apropriado.
 
 REGRAS DE NEGÓCIO
+
 - Um cliente possui vários projetos.
 - Um projeto possui produtos/ofertas, briefings e criativos.
 - Um criativo pertence a um projeto e pode possuir várias versões, assets, aprovações, performances, insights e iterações.
@@ -236,6 +246,7 @@ DEMO DATA
 Inclua dados demo realistas em português do Brasil: pelo menos 2 clientes, 3 projetos, 10+ criativos em diferentes status, ângulos, hooks, copies, assets, performances e insights. Deixe claro quando algo é dado demo.
 
 QUALIDADE
+
 - Estados de loading, erro e vazio.
 - Validação de formulários.
 - Toasts de sucesso/erro.

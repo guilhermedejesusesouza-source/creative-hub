@@ -40,7 +40,10 @@ export const Route = createFileRoute("/_authenticated/leads/$id")({
   head: () => ({
     meta: [
       { title: "Lead — Creative OS" },
-      { name: "description", content: "Detalhe do lead: etapa, score, contatos, follow-ups e motivo de perda." },
+      {
+        name: "description",
+        content: "Detalhe do lead: etapa, score, contatos, follow-ups e motivo de perda.",
+      },
       { property: "og:title", content: "Lead — Creative OS" },
       { property: "og:description", content: "Detalhe do lead no pipeline." },
       { property: "og:type", content: "website" },
@@ -157,7 +160,10 @@ function LeadDetail() {
 
   return (
     <div className="space-y-5">
-      <Link to="/leads" className="inline-flex items-center gap-1.5 text-sm text-muted-foreground hover:text-foreground">
+      <Link
+        to="/leads"
+        className="inline-flex items-center gap-1.5 text-sm text-muted-foreground hover:text-foreground"
+      >
         <ArrowLeft className="size-4" /> Voltar para o pipeline
       </Link>
 
@@ -181,10 +187,21 @@ function LeadDetail() {
       />
 
       <div className="grid gap-3 sm:grid-cols-4">
-        <StatCard label="Temperatura" value={`${temp.label} · ${l.score ?? 0}`} tone={temp.tone === "destructive" ? "destructive" : "primary"} />
+        <StatCard
+          label="Temperatura"
+          value={`${temp.label} · ${l.score ?? 0}`}
+          tone={temp.tone === "destructive" ? "destructive" : "primary"}
+        />
         <StatCard label="Contatos" value={`${Math.min(count, 7)} de 7`} />
-        <StatCard label="Valor potencial" value={brl(Number(l["potential_value"] ?? 0))} tone="neon" />
-        <StatCard label="Próximo contato" value={dateBR(String(l["next_contact_on"] ?? "")) || "—"} />
+        <StatCard
+          label="Valor potencial"
+          value={brl(Number(l["potential_value"] ?? 0))}
+          tone="neon"
+        />
+        <StatCard
+          label="Próximo contato"
+          value={dateBR(String(l["next_contact_on"] ?? "")) || "—"}
+        />
       </div>
 
       <div className="grid gap-4 lg:grid-cols-2">
@@ -202,21 +219,29 @@ function LeadDetail() {
               ["Segmento", l["segment"]],
             ].map(([k, v]) => (
               <div key={String(k)}>
-                <dt className="text-[11px] uppercase tracking-wide text-muted-foreground">{String(k)}</dt>
+                <dt className="text-[11px] uppercase tracking-wide text-muted-foreground">
+                  {String(k)}
+                </dt>
                 <dd className="mt-0.5">{v ? String(v) : "—"}</dd>
               </div>
             ))}
           </dl>
           {l.stage === "PERDIDO" ? (
             <div className="mt-4 rounded-md border border-destructive/40 bg-destructive/10 p-3 text-sm">
-              <p className="font-medium">Perdido: {labelFrom(LOSS_REASONS, String(l["loss_reason"] ?? ""))}</p>
-              {l["loss_note"] ? <p className="text-muted-foreground">{String(l["loss_note"])}</p> : null}
+              <p className="font-medium">
+                Perdido: {labelFrom(LOSS_REASONS, String(l["loss_reason"] ?? ""))}
+              </p>
+              {l["loss_note"] ? (
+                <p className="text-muted-foreground">{String(l["loss_note"])}</p>
+              ) : null}
             </div>
           ) : null}
         </section>
 
         <form className="surface-panel space-y-3 p-4" onSubmit={registerContact}>
-          <h2 className="text-sm font-semibold">Registrar contato ({Math.min(count + 1, 7)} de 7)</h2>
+          <h2 className="text-sm font-semibold">
+            Registrar contato ({Math.min(count + 1, 7)} de 7)
+          </h2>
           <div className="grid gap-3 sm:grid-cols-2">
             <div className="space-y-1.5">
               <Label>Canal</Label>
@@ -261,7 +286,8 @@ function LeadDetail() {
             onChange={(e) => setContactForm((f) => ({ ...f, message: e.target.value }))}
           />
           <p className="text-xs text-muted-foreground">
-            Próximo contato sugerido: {dateBR(suggestNextContact(count + 1))} (editável no campo do lead).
+            Próximo contato sugerido: {dateBR(suggestNextContact(count + 1))} (editável no campo do
+            lead).
           </p>
           <Button type="submit" size="sm" disabled={saveContact.isPending}>
             Registrar contato
@@ -271,7 +297,9 @@ function LeadDetail() {
 
       <section className="grid gap-4 lg:grid-cols-2">
         <div className="surface-panel">
-          <h2 className="border-b border-border px-4 py-3 text-sm font-semibold">Histórico de contatos</h2>
+          <h2 className="border-b border-border px-4 py-3 text-sm font-semibold">
+            Histórico de contatos
+          </h2>
           {(contacts.data ?? []).length === 0 ? (
             <p className="px-4 py-6 text-sm text-muted-foreground">Nenhum contato registrado.</p>
           ) : (
@@ -279,11 +307,17 @@ function LeadDetail() {
               {[...(contacts.data ?? [])].reverse().map((c) => (
                 <li key={c.id} className="px-4 py-3">
                   <div className="flex items-center justify-between">
-                    <p className="text-sm font-medium">Contato {c.number ?? "—"} · {c.channel}</p>
+                    <p className="text-sm font-medium">
+                      Contato {c.number ?? "—"} · {c.channel}
+                    </p>
                     <Tag>{c.outcome ?? "—"}</Tag>
                   </div>
-                  {c.message ? <p className="mt-1 text-sm text-muted-foreground">{c.message}</p> : null}
-                  <p className="mt-1 text-[11px] text-muted-foreground">{dateTimeBR(c.happened_at)}</p>
+                  {c.message ? (
+                    <p className="mt-1 text-sm text-muted-foreground">{c.message}</p>
+                  ) : null}
+                  <p className="mt-1 text-[11px] text-muted-foreground">
+                    {dateTimeBR(c.happened_at)}
+                  </p>
                 </li>
               ))}
             </ul>
@@ -355,7 +389,11 @@ function LeadDetail() {
             </div>
             <div className="space-y-1.5">
               <Label htmlFor="loss-note">Observação</Label>
-              <Textarea id="loss-note" value={lossNote} onChange={(e) => setLossNote(e.target.value)} />
+              <Textarea
+                id="loss-note"
+                value={lossNote}
+                onChange={(e) => setLossNote(e.target.value)}
+              />
             </div>
           </div>
           <DialogFooter>

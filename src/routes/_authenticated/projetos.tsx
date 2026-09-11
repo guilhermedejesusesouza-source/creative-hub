@@ -30,7 +30,10 @@ export const Route = createFileRoute("/_authenticated/projetos")({
   head: () => ({
     meta: [
       { title: "Projetos — Creative OS" },
-      { name: "description", content: "Projetos por cliente com objetivo, plataforma, funil, período e responsáveis." },
+      {
+        name: "description",
+        content: "Projetos por cliente com objetivo, plataforma, funil, período e responsáveis.",
+      },
       { property: "og:title", content: "Projetos — Creative OS" },
       { property: "og:description", content: "Organize os projetos de cada cliente." },
       { property: "og:type", content: "website" },
@@ -60,7 +63,8 @@ function ProjectsPage() {
     orderBy: "name",
     ascending: true,
   });
-  const clientName = (id: string | null) => (clients.data ?? []).find((c) => c.id === id)?.name ?? "—";
+  const clientName = (id: string | null) =>
+    (clients.data ?? []).find((c) => c.id === id)?.name ?? "—";
 
   return (
     <div className="space-y-5">
@@ -73,7 +77,10 @@ function ProjectsPage() {
       {projects.isLoading ? (
         <LoadingRows />
       ) : (projects.data ?? []).length === 0 ? (
-        <EmptyState title="Nenhum projeto ainda" description="Crie o primeiro projeto para um cliente." />
+        <EmptyState
+          title="Nenhum projeto ainda"
+          description="Crie o primeiro projeto para um cliente."
+        />
       ) : (
         <ul className="grid gap-3 md:grid-cols-2 xl:grid-cols-3">
           {(projects.data ?? []).map((p) => (
@@ -85,7 +92,9 @@ function ProjectsPage() {
                 </div>
                 <Tag>{p.status ?? "—"}</Tag>
               </div>
-              <p className="mt-3 text-sm text-muted-foreground">{p.objective ?? "Sem objetivo definido."}</p>
+              <p className="mt-3 text-sm text-muted-foreground">
+                {p.objective ?? "Sem objetivo definido."}
+              </p>
               <div className="mt-3 flex flex-wrap gap-2 text-[11px] text-muted-foreground">
                 {p.platform ? <Tag>{p.platform}</Tag> : null}
                 {p.funnel ? <Tag>{p.funnel}</Tag> : null}
@@ -152,7 +161,12 @@ function NewProjectDialog({ clients }: { clients: { id: string; name: string }[]
         <form className="space-y-3" onSubmit={submit}>
           <div className="space-y-1.5">
             <Label htmlFor="p-name">Nome *</Label>
-            <Input id="p-name" required value={form.name} onChange={(e) => set("name", e.target.value)} />
+            <Input
+              id="p-name"
+              required
+              value={form.name}
+              onChange={(e) => set("name", e.target.value)}
+            />
           </div>
           <div className="grid gap-3 sm:grid-cols-2">
             <div className="space-y-1.5">
@@ -202,16 +216,30 @@ function NewProjectDialog({ clients }: { clients: { id: string; name: string }[]
             </div>
             <div className="space-y-1.5">
               <Label htmlFor="p-start">Início</Label>
-              <Input id="p-start" type="date" value={form.starts_on} onChange={(e) => set("starts_on", e.target.value)} />
+              <Input
+                id="p-start"
+                type="date"
+                value={form.starts_on}
+                onChange={(e) => set("starts_on", e.target.value)}
+              />
             </div>
             <div className="space-y-1.5">
               <Label htmlFor="p-end">Fim</Label>
-              <Input id="p-end" type="date" value={form.ends_on} onChange={(e) => set("ends_on", e.target.value)} />
+              <Input
+                id="p-end"
+                type="date"
+                value={form.ends_on}
+                onChange={(e) => set("ends_on", e.target.value)}
+              />
             </div>
           </div>
           <div className="space-y-1.5">
             <Label htmlFor="p-obj">Objetivo</Label>
-            <Textarea id="p-obj" value={form.objective} onChange={(e) => set("objective", e.target.value)} />
+            <Textarea
+              id="p-obj"
+              value={form.objective}
+              onChange={(e) => set("objective", e.target.value)}
+            />
           </div>
           <DialogFooter>
             <Button type="submit" disabled={save.isPending}>

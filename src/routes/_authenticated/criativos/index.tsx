@@ -43,7 +43,10 @@ export const Route = createFileRoute("/_authenticated/criativos/")({
   head: () => ({
     meta: [
       { title: "Criativos — Creative OS" },
-      { name: "description", content: "Todos os criativos com status, plataforma, formato, responsável e score." },
+      {
+        name: "description",
+        content: "Todos os criativos com status, plataforma, formato, responsável e score.",
+      },
       { property: "og:title", content: "Criativos — Creative OS" },
       { property: "og:description", content: "Gerencie criativos de ponta a ponta." },
       { property: "og:type", content: "website" },
@@ -74,12 +77,16 @@ function CreativesPage() {
     orderBy: "name",
     ascending: true,
   });
-  const projects = useRows<{ id: string; name: string; client_id: string }>("projects", workspaceId);
+  const projects = useRows<{ id: string; name: string; client_id: string }>(
+    "projects",
+    workspaceId,
+  );
   const [q, setQ] = useState("");
   const [status, setStatus] = useState("TODOS");
   const [client, setClient] = useState("TODOS");
 
-  const clientName = (id: string | null) => (clients.data ?? []).find((c) => c.id === id)?.name ?? "—";
+  const clientName = (id: string | null) =>
+    (clients.data ?? []).find((c) => c.id === id)?.name ?? "—";
 
   const list = useMemo(() => {
     const t = q.trim().toLowerCase();
@@ -98,7 +105,10 @@ function CreativesPage() {
         description="Cada criativo com ID sequencial, estratégia, produção e resultados."
         actions={
           <div className="flex items-center gap-2">
-            <AICreativeGeneratorDialog clients={clients.data ?? []} projects={projects.data ?? []} />
+            <AICreativeGeneratorDialog
+              clients={clients.data ?? []}
+              projects={projects.data ?? []}
+            />
             <NewCreativeDialog clients={clients.data ?? []} projects={projects.data ?? []} />
           </div>
         }
@@ -142,7 +152,10 @@ function CreativesPage() {
       {creatives.isLoading ? (
         <LoadingRows />
       ) : list.length === 0 ? (
-        <EmptyState title="Nenhum criativo encontrado" description="Ajuste os filtros ou crie um novo criativo." />
+        <EmptyState
+          title="Nenhum criativo encontrado"
+          description="Ajuste os filtros ou crie um novo criativo."
+        />
       ) : (
         <div className="surface-panel overflow-x-auto">
           <table className="w-full text-sm">
@@ -250,7 +263,12 @@ function NewCreativeDialog({
         <form className="space-y-3" onSubmit={submit}>
           <div className="space-y-1.5">
             <Label htmlFor="c-name">Nome *</Label>
-            <Input id="c-name" required value={form.name} onChange={(e) => set("name", e.target.value)} />
+            <Input
+              id="c-name"
+              required
+              value={form.name}
+              onChange={(e) => set("name", e.target.value)}
+            />
           </div>
           <div className="grid gap-3 sm:grid-cols-2">
             <div className="space-y-1.5">
@@ -283,16 +301,36 @@ function NewCreativeDialog({
                 </SelectContent>
               </Select>
             </div>
-            <SelectField label="Plataforma" value={form.platform} onChange={(v) => set("platform", v)} options={PLATFORMS.map((p) => ({ value: p, label: p }))} />
-            <SelectField label="Formato" value={form.format} onChange={(v) => set("format", v)} options={FORMATS.map((f) => ({ value: f, label: f }))} />
-            <SelectField label="Funil" value={form.funnel} onChange={(v) => set("funnel", v)} options={FUNNEL_STAGES} />
+            <SelectField
+              label="Plataforma"
+              value={form.platform}
+              onChange={(v) => set("platform", v)}
+              options={PLATFORMS.map((p) => ({ value: p, label: p }))}
+            />
+            <SelectField
+              label="Formato"
+              value={form.format}
+              onChange={(v) => set("format", v)}
+              options={FORMATS.map((f) => ({ value: f, label: f }))}
+            />
+            <SelectField
+              label="Funil"
+              value={form.funnel}
+              onChange={(v) => set("funnel", v)}
+              options={FUNNEL_STAGES}
+            />
             <SelectField
               label="Nível de consciência"
               value={form.awareness}
               onChange={(v) => set("awareness", v)}
               options={AWARENESS_LEVELS}
             />
-            <SelectField label="Prioridade" value={form.priority} onChange={(v) => set("priority", v)} options={PRIORITIES} />
+            <SelectField
+              label="Prioridade"
+              value={form.priority}
+              onChange={(v) => set("priority", v)}
+              options={PRIORITIES}
+            />
           </div>
           <div className="space-y-1.5">
             <Label htmlFor="c-hyp">Hipótese</Label>
@@ -305,7 +343,11 @@ function NewCreativeDialog({
           </div>
           <div className="space-y-1.5">
             <Label htmlFor="c-concept">Big idea</Label>
-            <Textarea id="c-concept" value={form.concept} onChange={(e) => set("concept", e.target.value)} />
+            <Textarea
+              id="c-concept"
+              value={form.concept}
+              onChange={(e) => set("concept", e.target.value)}
+            />
           </div>
           <DialogFooter>
             <Button type="submit" disabled={save.isPending}>
@@ -385,7 +427,7 @@ function AICreativeGeneratorDialog({
       toast.success(
         res.cached
           ? "Ganchos recuperados do cache instantâneo (0 tokens consumidos!)"
-          : "Novos ganchos gerados pela IA com sucesso!"
+          : "Novos ganchos gerados pela IA com sucesso!",
       );
     } catch {
       toast.error("Erro ao gerar ganchos com IA");
@@ -403,7 +445,12 @@ function AICreativeGeneratorDialog({
       project_id: clientProjects[0]?.id || null,
       name: `[IA] ${hook.text.slice(0, 40)}...`,
       platform: "Meta",
-      format: hook.format === "video_9_16" ? "Vídeo 9:16" : hook.format === "carrossel" ? "Carrossel 4:5" : "Reels",
+      format:
+        hook.format === "video_9_16"
+          ? "Vídeo 9:16"
+          : hook.format === "carrossel"
+            ? "Carrossel 4:5"
+            : "Reels",
       status: "BACKLOG",
       hypothesis: `Hook focado em ${hook.category}: "${hook.text}" - ${hook.rationale}`,
       concept: hook.text,
@@ -415,7 +462,10 @@ function AICreativeGeneratorDialog({
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button variant="outline" className="gap-2 border-primary/40 bg-primary/5 hover:bg-primary/10">
+        <Button
+          variant="outline"
+          className="gap-2 border-primary/40 bg-primary/5 hover:bg-primary/10"
+        >
           <Sparkles className="size-4 text-primary" /> Gerar com IA
         </Button>
       </DialogTrigger>
@@ -498,14 +548,15 @@ function AICreativeGeneratorDialog({
           <div className="mt-4 pt-4 border-t border-border space-y-3">
             <div className="flex items-center justify-between">
               <h4 className="text-sm font-semibold">Opções de Ganchos Geradas:</h4>
-              {isCached && (
-                <Tag tone="info">⚡ Resposta do Cache (0 Tokens)</Tag>
-              )}
+              {isCached && <Tag tone="info">⚡ Resposta do Cache (0 Tokens)</Tag>}
             </div>
 
             <div className="grid gap-2">
               {generatedHooks.map((h, idx) => (
-                <div key={idx} className="surface-panel p-3 flex items-center justify-between gap-3">
+                <div
+                  key={idx}
+                  className="surface-panel p-3 flex items-center justify-between gap-3"
+                >
                   <div className="space-y-1">
                     <p className="text-sm font-medium">"{h.text}"</p>
                     <p className="text-xs text-muted-foreground">{h.rationale}</p>

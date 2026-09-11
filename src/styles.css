@@ -66,7 +66,8 @@
   --color-sidebar-ring: var(--sidebar-ring);
 
   --shadow-elevated: 0 18px 44px -26px oklch(0 0 0 / 0.85);
-  --shadow-glow: 0 0 0 1px oklch(0.78 0.17 160 / 0.3), 0 14px 36px -20px oklch(0.78 0.17 160 / 0.45);
+  --shadow-glow:
+    0 0 0 1px oklch(0.78 0.17 160 / 0.3), 0 14px 36px -20px oklch(0.78 0.17 160 / 0.45);
   --shadow-neon: 0 0 0 1px oklch(0.88 0.23 145 / 0.5), 0 0 24px -6px oklch(0.88 0.23 145 / 0.4);
 }
 

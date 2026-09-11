@@ -21,7 +21,14 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
 import { Textarea } from "@/components/ui/textarea";
 import { useAuth } from "@/hooks/useAuth";
 import { CLIENT_STATUSES, HEALTH_STATUSES, LEAD_SOURCES, labelFrom, toneFrom } from "@/lib/crm";
@@ -34,7 +41,8 @@ export const Route = createFileRoute("/_authenticated/clientes/")({
       { title: "Clientes — Creative OS" },
       {
         name: "description",
-        content: "Carteira de clientes com status, saúde, valor mensal, responsável e próximas ações.",
+        content:
+          "Carteira de clientes com status, saúde, valor mensal, responsável e próximas ações.",
       },
       { property: "og:title", content: "Clientes — Creative OS" },
       { property: "og:description", content: "Gestão completa da carteira de clientes." },
@@ -153,7 +161,11 @@ function ClientsPage() {
                       {c.company ? (
                         <span className="block text-xs text-muted-foreground">{c.company}</span>
                       ) : null}
-                      {c.is_demo ? <Tag tone="info" className="mt-1">demo</Tag> : null}
+                      {c.is_demo ? (
+                        <Tag tone="info" className="mt-1">
+                          demo
+                        </Tag>
+                      ) : null}
                     </Link>
                   </TableCell>
                   <TableCell>
@@ -161,7 +173,9 @@ function ClientsPage() {
                       {labelFrom(CLIENT_STATUSES, c.status)}
                     </Tag>
                   </TableCell>
-                  <TableCell className="text-sm text-muted-foreground">{c.service ?? "—"}</TableCell>
+                  <TableCell className="text-sm text-muted-foreground">
+                    {c.service ?? "—"}
+                  </TableCell>
                   <TableCell className="text-sm">{brl(c.monthly_value ?? 0)}</TableCell>
                   <TableCell className="text-sm text-muted-foreground">
                     {c.account_manager ?? "—"}
@@ -171,7 +185,9 @@ function ClientsPage() {
                       {labelFrom(HEALTH_STATUSES, c.health)}
                     </Tag>
                   </TableCell>
-                  <TableCell className="text-xs text-muted-foreground">{dateBR(c.updated_at)}</TableCell>
+                  <TableCell className="text-xs text-muted-foreground">
+                    {dateBR(c.updated_at)}
+                  </TableCell>
                 </TableRow>
               ))}
             </TableBody>
@@ -243,19 +259,36 @@ export function NewClientDialog() {
           <div className="grid gap-3 sm:grid-cols-2">
             <div className="space-y-1.5 sm:col-span-2">
               <Label htmlFor="c-name">Nome *</Label>
-              <Input id="c-name" required value={form.name} onChange={(e) => set("name", e.target.value)} />
+              <Input
+                id="c-name"
+                required
+                value={form.name}
+                onChange={(e) => set("name", e.target.value)}
+              />
             </div>
             <div className="space-y-1.5">
               <Label htmlFor="c-company">Empresa</Label>
-              <Input id="c-company" value={form.company} onChange={(e) => set("company", e.target.value)} />
+              <Input
+                id="c-company"
+                value={form.company}
+                onChange={(e) => set("company", e.target.value)}
+              />
             </div>
             <div className="space-y-1.5">
               <Label htmlFor="c-segment">Segmento</Label>
-              <Input id="c-segment" value={form.segment} onChange={(e) => set("segment", e.target.value)} />
+              <Input
+                id="c-segment"
+                value={form.segment}
+                onChange={(e) => set("segment", e.target.value)}
+              />
             </div>
             <div className="space-y-1.5">
               <Label htmlFor="c-service">Serviço</Label>
-              <Input id="c-service" value={form.service} onChange={(e) => set("service", e.target.value)} />
+              <Input
+                id="c-service"
+                value={form.service}
+                onChange={(e) => set("service", e.target.value)}
+              />
             </div>
             <div className="space-y-1.5">
               <Label htmlFor="c-value">Valor mensal (R$)</Label>
@@ -334,7 +367,11 @@ export function NewClientDialog() {
           </div>
           <div className="space-y-1.5">
             <Label htmlFor="c-notes">Observações</Label>
-            <Textarea id="c-notes" value={form.notes} onChange={(e) => set("notes", e.target.value)} />
+            <Textarea
+              id="c-notes"
+              value={form.notes}
+              onChange={(e) => set("notes", e.target.value)}
+            />
           </div>
           <DialogFooter>
             <Button type="submit" disabled={save.isPending}>

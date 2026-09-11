@@ -225,11 +225,12 @@ export function AppShell({ children }: { children: ReactNode }) {
 
 function NotificationsButton() {
   const { workspaceId } = useAuth();
-  const { data = [] } = useRows<{ id: string; title: string; body: string | null; created_at: string }>(
-    "notifications",
-    workspaceId,
-    { limit: 12 },
-  );
+  const { data = [] } = useRows<{
+    id: string;
+    title: string;
+    body: string | null;
+    created_at: string;
+  }>("notifications", workspaceId, { limit: 12 });
 
   return (
     <Popover>
@@ -275,11 +276,15 @@ function GlobalSearch({
     workspaceId,
     { orderBy: "name", ascending: true, enabled: open },
   );
-  const leads = useRows<{ id: string; name: string; company: string | null }>("leads", workspaceId, {
-    orderBy: "name",
-    ascending: true,
-    enabled: open,
-  });
+  const leads = useRows<{ id: string; name: string; company: string | null }>(
+    "leads",
+    workspaceId,
+    {
+      orderBy: "name",
+      ascending: true,
+      enabled: open,
+    },
+  );
   const creatives = useRows<{ id: string; name: string; code: string | null }>(
     "creatives",
     workspaceId,

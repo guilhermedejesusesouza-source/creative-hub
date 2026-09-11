@@ -42,7 +42,10 @@ export const Route = createFileRoute("/_authenticated/clientes/$id")({
   head: () => ({
     meta: [
       { title: "Cliente — Creative OS" },
-      { name: "description", content: "Visão 360 do cliente: relacionamento, tarefas, projetos, criativos e resultados." },
+      {
+        name: "description",
+        content: "Visão 360 do cliente: relacionamento, tarefas, projetos, criativos e resultados.",
+      },
       { property: "og:title", content: "Cliente — Creative OS" },
       { property: "og:description", content: "Visão 360 do cliente." },
       { property: "og:type", content: "website" },
@@ -124,7 +127,10 @@ function ClientDetail() {
 
   return (
     <div className="space-y-5">
-      <Link to="/clientes" className="inline-flex items-center gap-1.5 text-sm text-muted-foreground hover:text-foreground">
+      <Link
+        to="/clientes"
+        className="inline-flex items-center gap-1.5 text-sm text-muted-foreground hover:text-foreground"
+      >
         <ArrowLeft className="size-4" /> Voltar para clientes
       </Link>
 
@@ -133,10 +139,7 @@ function ClientDetail() {
         description={[c["company"], c["segment"], c["service"]].filter(Boolean).join(" · ") || " "}
         actions={
           <div className="flex gap-2">
-            <Select
-              value={c.status}
-              onValueChange={(v) => save.mutate({ id, status: v })}
-            >
+            <Select value={c.status} onValueChange={(v) => save.mutate({ id, status: v })}>
               <SelectTrigger className="w-44">
                 <SelectValue />
               </SelectTrigger>
@@ -197,7 +200,10 @@ function ClientDetail() {
                 <Info label="WhatsApp" value={String(c["whatsapp"] ?? "—")} />
                 <Info label="Instagram" value={String(c["instagram"] ?? "—")} />
                 <Info label="Site" value={String(c["website"] ?? "—")} />
-                <Info label="Cidade/UF" value={[c["city"], c["state"]].filter(Boolean).join("/") || "—"} />
+                <Info
+                  label="Cidade/UF"
+                  value={[c["city"], c["state"]].filter(Boolean).join("/") || "—"}
+                />
                 <Info label="Entrada" value={dateBR(String(c["entry_date"] ?? "")) || "—"} />
                 <Info label="Vencimento" value={c["due_day"] ? `Dia ${c["due_day"]}` : "—"} />
                 <Info label="Financeiro" value={String(c["financial_status"] ?? "—")} />
@@ -236,7 +242,10 @@ function ClientDetail() {
         <TabsContent value="atividades" className="space-y-4">
           <ActivityForm clientId={id} />
           {(activities.data ?? []).length === 0 ? (
-            <EmptyState title="Sem atividades" description="Registre contatos, reuniões e decisões." />
+            <EmptyState
+              title="Sem atividades"
+              description="Registre contatos, reuniões e decisões."
+            />
           ) : (
             <ol className="surface-panel divide-y divide-border">
               {[...(activities.data ?? [])].reverse().map((a) => (
@@ -257,7 +266,10 @@ function ClientDetail() {
 
         <TabsContent value="tarefas">
           {(tasks.data ?? []).length === 0 ? (
-            <EmptyState title="Sem tarefas" description="Crie tarefas na página Tarefas e vincule a este cliente." />
+            <EmptyState
+              title="Sem tarefas"
+              description="Crie tarefas na página Tarefas e vincule a este cliente."
+            />
           ) : (
             <ul className="surface-panel divide-y divide-border">
               {(tasks.data ?? []).map((t) => (
@@ -297,7 +309,11 @@ function ClientDetail() {
             <ul className="surface-panel divide-y divide-border">
               {(creatives.data ?? []).map((cr) => (
                 <li key={cr.id} className="flex items-center justify-between px-4 py-3">
-                  <Link to="/criativos/$id" params={{ id: cr.id }} className="text-sm hover:text-primary">
+                  <Link
+                    to="/criativos/$id"
+                    params={{ id: cr.id }}
+                    className="text-sm hover:text-primary"
+                  >
                     <span className="text-muted-foreground">{cr.code} </span>
                     {cr.name}
                   </Link>
@@ -334,11 +350,15 @@ function ClientDetail() {
                     {n.is_pinned ? <Pin className="size-3.5 text-primary" /> : null}
                   </div>
                   {n.body ? (
-                    <p className="mt-1.5 whitespace-pre-wrap text-sm text-muted-foreground">{n.body}</p>
+                    <p className="mt-1.5 whitespace-pre-wrap text-sm text-muted-foreground">
+                      {n.body}
+                    </p>
                   ) : null}
                   <div className="mt-3 flex items-center gap-2">
                     <Tag>{labelFrom(NOTE_CATEGORIES, n.category)}</Tag>
-                    <span className="text-[11px] text-muted-foreground">{dateBR(n.created_at)}</span>
+                    <span className="text-[11px] text-muted-foreground">
+                      {dateBR(n.created_at)}
+                    </span>
                   </div>
                 </li>
               ))}

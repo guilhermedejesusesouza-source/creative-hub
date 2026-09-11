@@ -30,7 +30,10 @@ export const Route = createFileRoute("/_authenticated/performance")({
   head: () => ({
     meta: [
       { title: "Performance — Creative OS" },
-      { name: "description", content: "Registre e analise métricas por criativo, plataforma, campanha e período." },
+      {
+        name: "description",
+        content: "Registre e analise métricas por criativo, plataforma, campanha e período.",
+      },
       { property: "og:title", content: "Performance — Creative OS" },
       { property: "og:description", content: "Resultados de mídia por criativo e período." },
       { property: "og:type", content: "website" },
@@ -58,10 +61,12 @@ type Perf = {
 function PerformancePage() {
   const { workspaceId } = useAuth();
   const perf = useRows<Perf>("performances", workspaceId, { orderBy: "period_start" });
-  const creatives = useRows<{ id: string; name: string; code: string | null; client_id: string | null }>(
-    "creatives",
-    workspaceId,
-  );
+  const creatives = useRows<{
+    id: string;
+    name: string;
+    code: string | null;
+    client_id: string | null;
+  }>("creatives", workspaceId);
   const clients = useRows<{ id: string; name: string }>("clients", workspaceId, {
     orderBy: "name",
     ascending: true,
@@ -156,9 +161,18 @@ function PerformancePage() {
                 <XAxis dataKey="platform" stroke="var(--muted-foreground)" fontSize={12} />
                 <YAxis stroke="var(--muted-foreground)" fontSize={12} />
                 <Tooltip
-                  contentStyle={{ background: "var(--card)", border: "1px solid var(--border)", borderRadius: 8 }}
+                  contentStyle={{
+                    background: "var(--card)",
+                    border: "1px solid var(--border)",
+                    borderRadius: 8,
+                  }}
                 />
-                <Bar dataKey="spend" name="Investimento" fill="var(--primary)" radius={[4, 4, 0, 0]} />
+                <Bar
+                  dataKey="spend"
+                  name="Investimento"
+                  fill="var(--primary)"
+                  radius={[4, 4, 0, 0]}
+                />
                 <Bar dataKey="revenue" name="Receita" fill="var(--neon)" radius={[4, 4, 0, 0]} />
               </BarChart>
             </ResponsiveContainer>
@@ -169,7 +183,10 @@ function PerformancePage() {
       {perf.isLoading ? (
         <LoadingRows />
       ) : rows.length === 0 ? (
-        <EmptyState title="Nenhum registro de performance" description="Registre resultados para gerar diagnósticos." />
+        <EmptyState
+          title="Nenhum registro de performance"
+          description="Registre resultados para gerar diagnósticos."
+        />
       ) : (
         <div className="surface-panel overflow-x-auto">
           <table className="w-full text-sm">
@@ -321,11 +338,21 @@ function NewPerfDialog({
             </div>
             <div className="space-y-1.5">
               <Label htmlFor="pf-start">Início</Label>
-              <Input id="pf-start" type="date" value={form.period_start} onChange={(e) => set("period_start", e.target.value)} />
+              <Input
+                id="pf-start"
+                type="date"
+                value={form.period_start}
+                onChange={(e) => set("period_start", e.target.value)}
+              />
             </div>
             <div className="space-y-1.5">
               <Label htmlFor="pf-end">Fim</Label>
-              <Input id="pf-end" type="date" value={form.period_end} onChange={(e) => set("period_end", e.target.value)} />
+              <Input
+                id="pf-end"
+                type="date"
+                value={form.period_end}
+                onChange={(e) => set("period_end", e.target.value)}
+              />
             </div>
             {numericFields.map(([k, label]) => (
               <div key={k} className="space-y-1.5">

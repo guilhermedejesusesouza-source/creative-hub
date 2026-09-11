@@ -80,10 +80,16 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
       { title: "Creative OS" },
-      { name: "description", content: "CRM, operação e inteligência de criativos para tráfego pago." },
-      
+      {
+        name: "description",
+        content: "CRM, operação e inteligência de criativos para tráfego pago.",
+      },
+
       { property: "og:title", content: "Creative OS" },
-      { property: "og:description", content: "CRM, operação e inteligência de criativos para tráfego pago." },
+      {
+        property: "og:description",
+        content: "CRM, operação e inteligência de criativos para tráfego pago.",
+      },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
       { name: "twitter:site", content: "@Lovable" },

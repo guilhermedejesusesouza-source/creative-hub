@@ -39,7 +39,11 @@ export const Route = createFileRoute("/_authenticated/criativos/$id")({
   head: () => ({
     meta: [
       { title: "Criativo — Creative OS" },
-      { name: "description", content: "Estratégia, conceito, direção, versões, aprovação, score e performance do criativo." },
+      {
+        name: "description",
+        content:
+          "Estratégia, conceito, direção, versões, aprovação, score e performance do criativo.",
+      },
       { property: "og:title", content: "Criativo — Creative OS" },
       { property: "og:description", content: "Detalhe completo do criativo." },
       { property: "og:type", content: "website" },
@@ -145,16 +149,21 @@ function CreativeDetail() {
 
   return (
     <div className="space-y-5">
-      <Link to="/criativos" className="inline-flex items-center gap-1.5 text-sm text-muted-foreground hover:text-foreground">
+      <Link
+        to="/criativos"
+        className="inline-flex items-center gap-1.5 text-sm text-muted-foreground hover:text-foreground"
+      >
         <ArrowLeft className="size-4" /> Voltar para criativos
       </Link>
 
       <PageHeader
         title={`${c["code"] ?? ""} ${c.name}`.trim()}
-        description={[c["platform"], c["format"], c["funnel"], c["awareness"]]
-          .filter(Boolean)
-          .map(String)
-          .join(" · ") || " "}
+        description={
+          [c["platform"], c["format"], c["funnel"], c["awareness"]]
+            .filter(Boolean)
+            .map(String)
+            .join(" · ") || " "
+        }
         actions={
           <Select value={c.status} onValueChange={(v) => save.mutate({ id, status: v })}>
             <SelectTrigger className="w-48">
@@ -219,7 +228,8 @@ function CreativeDetail() {
         <TabsContent value="score" className="space-y-4">
           <div className="surface-panel space-y-4 p-4">
             <p className="text-sm text-muted-foreground">
-              Avalie cada critério para calcular o Creative Score (qualidade criativa, separado da performance).
+              Avalie cada critério para calcular o Creative Score (qualidade criativa, separado da
+              performance).
             </p>
             {SCORE_WEIGHTS.map((w) => (
               <div key={w.key} className="grid gap-2 sm:grid-cols-[1fr_6rem] sm:items-center">
@@ -227,10 +237,7 @@ function CreativeDetail() {
                   <Label htmlFor={w.key}>
                     {w.label} <span className="text-muted-foreground">(máx. {w.max})</span>
                   </Label>
-                  <Progress
-                    value={(Number(c[w.key] ?? 0) / w.max) * 100}
-                    className="mt-2"
-                  />
+                  <Progress value={(Number(c[w.key] ?? 0) / w.max) * 100} className="mt-2" />
                 </div>
                 <Input
                   id={w.key}
@@ -239,7 +246,10 @@ function CreativeDetail() {
                   max={w.max}
                   defaultValue={Number(c[w.key] ?? 0)}
                   onBlur={(e) =>
-                    save.mutate({ id, [w.key]: Math.min(w.max, Math.max(0, Number(e.target.value || 0))) })
+                    save.mutate({
+                      id,
+                      [w.key]: Math.min(w.max, Math.max(0, Number(e.target.value || 0))),
+                    })
                   }
                 />
               </div>
@@ -262,7 +272,11 @@ function CreativeDetail() {
         <TabsContent value="versoes" className="space-y-4">
           <div className="surface-panel space-y-3 p-4">
             <Label htmlFor="v-note">O que mudou nesta versão</Label>
-            <Textarea id="v-note" value={versionNote} onChange={(e) => setVersionNote(e.target.value)} />
+            <Textarea
+              id="v-note"
+              value={versionNote}
+              onChange={(e) => setVersionNote(e.target.value)}
+            />
             <Button size="sm" onClick={addVersion} disabled={saveVersion.isPending}>
               Registrar versão
             </Button>
@@ -322,10 +336,16 @@ function CreativeDetail() {
                     >
                       {a.status}
                     </Tag>
-                    <span className="text-[11px] text-muted-foreground">{dateTimeBR(a.created_at)}</span>
+                    <span className="text-[11px] text-muted-foreground">
+                      {dateTimeBR(a.created_at)}
+                    </span>
                   </div>
-                  {a.comment ? <p className="mt-1 text-sm text-muted-foreground">{a.comment}</p> : null}
-                  {a.reviewer ? <p className="text-[11px] text-muted-foreground">{a.reviewer}</p> : null}
+                  {a.comment ? (
+                    <p className="mt-1 text-sm text-muted-foreground">{a.comment}</p>
+                  ) : null}
+                  {a.reviewer ? (
+                    <p className="text-[11px] text-muted-foreground">{a.reviewer}</p>
+                  ) : null}
                 </li>
               ))}
             </ul>
@@ -346,10 +366,13 @@ function CreativeDetail() {
           <div className="surface-panel p-4">
             <h2 className="text-sm font-semibold">Diagnósticos</h2>
             <p className="mt-1 text-xs text-muted-foreground">
-              Leituras prováveis a partir dos números registrados — indícios, não causalidade comprovada.
+              Leituras prováveis a partir dos números registrados — indícios, não causalidade
+              comprovada.
             </p>
             {diags.length === 0 ? (
-              <p className="mt-3 text-sm text-muted-foreground">Sem dados suficientes para diagnosticar.</p>
+              <p className="mt-3 text-sm text-muted-foreground">
+                Sem dados suficientes para diagnosticar.
+              </p>
             ) : (
               <ul className="mt-3 space-y-3">
                 {diags.map((d) => (

@@ -32,7 +32,10 @@ export const Route = createFileRoute("/_authenticated/leads/")({
   head: () => ({
     meta: [
       { title: "Leads e Pipeline — Creative OS" },
-      { name: "description", content: "Pipeline comercial com etapas, valor potencial, score e controle de contatos." },
+      {
+        name: "description",
+        content: "Pipeline comercial com etapas, valor potencial, score e controle de contatos.",
+      },
       { property: "og:title", content: "Leads e Pipeline — Creative OS" },
       { property: "og:description", content: "Pipeline comercial do Creative OS." },
       { property: "og:type", content: "website" },
@@ -99,7 +102,10 @@ function LeadsPage() {
       {leads.isLoading ? (
         <LoadingRows />
       ) : filtered.length === 0 ? (
-        <EmptyState title="Nenhum lead ainda" description="Cadastre o primeiro lead para começar o pipeline." />
+        <EmptyState
+          title="Nenhum lead ainda"
+          description="Cadastre o primeiro lead para começar o pipeline."
+        />
       ) : (
         <Tabs defaultValue="kanban">
           <TabsList>
@@ -176,7 +182,9 @@ function LeadsPage() {
                       <td className="px-4 py-3">
                         <Link to="/leads/$id" params={{ id: l.id }} className="hover:text-primary">
                           <span className="font-medium">{l.name}</span>
-                          <span className="block text-xs text-muted-foreground">{l.company ?? "—"}</span>
+                          <span className="block text-xs text-muted-foreground">
+                            {l.company ?? "—"}
+                          </span>
                         </Link>
                       </td>
                       <td className="px-4 py-3 text-xs">
@@ -259,19 +267,37 @@ function NewLeadDialog() {
           <div className="grid gap-3 sm:grid-cols-2">
             <div className="space-y-1.5">
               <Label htmlFor="l-name">Nome *</Label>
-              <Input id="l-name" required value={form.name} onChange={(e) => set("name", e.target.value)} />
+              <Input
+                id="l-name"
+                required
+                value={form.name}
+                onChange={(e) => set("name", e.target.value)}
+              />
             </div>
             <div className="space-y-1.5">
               <Label htmlFor="l-company">Empresa</Label>
-              <Input id="l-company" value={form.company} onChange={(e) => set("company", e.target.value)} />
+              <Input
+                id="l-company"
+                value={form.company}
+                onChange={(e) => set("company", e.target.value)}
+              />
             </div>
             <div className="space-y-1.5">
               <Label htmlFor="l-phone">Telefone</Label>
-              <Input id="l-phone" value={form.contact_phone} onChange={(e) => set("contact_phone", e.target.value)} />
+              <Input
+                id="l-phone"
+                value={form.contact_phone}
+                onChange={(e) => set("contact_phone", e.target.value)}
+              />
             </div>
             <div className="space-y-1.5">
               <Label htmlFor="l-email">E-mail</Label>
-              <Input id="l-email" type="email" value={form.contact_email} onChange={(e) => set("contact_email", e.target.value)} />
+              <Input
+                id="l-email"
+                type="email"
+                value={form.contact_email}
+                onChange={(e) => set("contact_email", e.target.value)}
+              />
             </div>
             <div className="space-y-1.5">
               <Label>Origem</Label>

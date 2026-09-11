@@ -28,7 +28,7 @@ export async function computeHash(input: Record<string, unknown> | string): Prom
 export async function getCachedAIResponse<T>(
   workspaceId: string,
   service: string,
-  cacheKey: string
+  cacheKey: string,
 ): Promise<T | null> {
   try {
     const { data, error } = await supabase
@@ -56,7 +56,7 @@ export async function setCachedAIResponse<T>(
   cacheKey: string,
   responseData: T,
   promptSummary?: string,
-  tokensSaved = 0
+  tokensSaved = 0,
 ): Promise<void> {
   try {
     await supabase.from("ai_cache" as any).insert({

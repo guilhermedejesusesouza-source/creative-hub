@@ -40,7 +40,10 @@ export const Route = createFileRoute("/_authenticated/tarefas")({
   head: () => ({
     meta: [
       { title: "Tarefas — Creative OS" },
-      { name: "description", content: "Central de tarefas: hoje, atrasadas, semana e concluídas, com recorrência." },
+      {
+        name: "description",
+        content: "Central de tarefas: hoje, atrasadas, semana e concluídas, com recorrência.",
+      },
       { property: "og:title", content: "Tarefas — Creative OS" },
       { property: "og:description", content: "Central operacional de tarefas." },
       { property: "og:type", content: "website" },
@@ -110,7 +113,9 @@ function TasksPage() {
               className="size-4 accent-[var(--primary)]"
             />
             <div className="min-w-0 flex-1">
-              <p className={`text-sm ${t.status === "CONCLUIDA" ? "line-through text-muted-foreground" : ""}`}>
+              <p
+                className={`text-sm ${t.status === "CONCLUIDA" ? "line-through text-muted-foreground" : ""}`}
+              >
                 {t.title}
               </p>
               <p className="text-xs text-muted-foreground">
@@ -253,12 +258,22 @@ function NewTaskDialog({ clients }: { clients: { id: string; name: string }[] })
         <form className="space-y-3" onSubmit={submit}>
           <div className="space-y-1.5">
             <Label htmlFor="t-title">Título *</Label>
-            <Input id="t-title" required value={form.title} onChange={(e) => set("title", e.target.value)} />
+            <Input
+              id="t-title"
+              required
+              value={form.title}
+              onChange={(e) => set("title", e.target.value)}
+            />
           </div>
           <div className="grid gap-3 sm:grid-cols-2">
             <div className="space-y-1.5">
               <Label htmlFor="t-due">Prazo</Label>
-              <Input id="t-due" type="date" value={form.due_on} onChange={(e) => set("due_on", e.target.value)} />
+              <Input
+                id="t-due"
+                type="date"
+                value={form.due_on}
+                onChange={(e) => set("due_on", e.target.value)}
+              />
             </div>
             <div className="space-y-1.5">
               <Label>Cliente</Label>

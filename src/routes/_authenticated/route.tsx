@@ -14,13 +14,8 @@ import { supabase } from "@/integrations/supabase/client";
 export const Route = createFileRoute("/_authenticated")({
   ssr: false,
   beforeLoad: async () => {
-    if (typeof window !== "undefined") {
-      const { data } = await supabase.auth.getSession();
-      if (!data.session) {
-        throw redirect({ to: "/auth" });
-      }
-      return { user: data.session.user };
-    }
+    // Bypass authentication for demo / public access
+    return {};
   },
   component: AuthenticatedLayout,
 });
@@ -36,9 +31,11 @@ function AuthenticatedLayout() {
     );
   }
 
-  if (!session) {
-    return <Navigate to="/auth" replace />;
-  }
+  // Session check bypassed: allow access without authentication
+  // if (!session) {
+  //   return <Navigate to="/auth" replace />;
+  // }
+  // Auth bypass: no redirect needed
 
   if (!workspaceId) return <Onboarding />;
 
