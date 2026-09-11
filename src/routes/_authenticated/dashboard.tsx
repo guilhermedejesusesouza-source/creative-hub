@@ -321,7 +321,7 @@ function Dashboard() {
               diagnoses.slice(0, 5).map((d, i) => (
                 <div key={i} className="rounded-lg border border-border px-3 py-2">
                   <div className="flex items-center gap-2">
-                    <Tag tone={DIAG_TONE[d.level]}>{d.title}</Tag>
+                    <Tag tone={DIAG_TONE[d.level] ?? "muted"}>{d.title}</Tag>
                   </div>
                   <p className="mt-1.5 text-sm text-muted-foreground">{d.explanation}</p>
                   {d.action ? <p className="mt-1 text-xs text-primary">Ação: {d.action}</p> : null}
