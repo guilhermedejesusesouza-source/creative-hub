@@ -101,23 +101,44 @@ export const NOTE_CATEGORIES = [
 ] as const;
 
 export const LEAD_SOURCES = [
-  "Indicação",
-  "Instagram",
-  "Prospecção ativa",
-  "Site",
-  "Evento",
-  "Tráfego pago",
-  "Outro",
+  { value: "INDICACAO", label: "Indicação" },
+  { value: "INSTAGRAM", label: "Instagram" },
+  { value: "PROSPECCAO", label: "Prospecção ativa" },
+  { value: "SITE", label: "Site" },
+  { value: "EVENTO", label: "Evento" },
+  { value: "TRAFEGO_PAGO", label: "Tráfego pago" },
+  { value: "OUTRO", label: "Outro" },
 ] as const;
 
+export const LOSS_REASONS = [
+  { value: "PRECO", label: "Preço" },
+  { value: "SEM_BUDGET", label: "Sem orçamento" },
+  { value: "TIMING", label: "Momento errado" },
+  { value: "CONCORRENTE", label: "Escolheu concorrente" },
+  { value: "SEM_FIT", label: "Sem fit" },
+  { value: "SEM_RESPOSTA", label: "Parou de responder" },
+  { value: "INTERNO", label: "Vai fazer internamente" },
+  { value: "OUTRO", label: "Outro" },
+] as const;
+
+export const FOLLOW_UP_STATUSES = FOLLOWUP_STATUSES;
+
 export function leadTemperature(score: number) {
-  if (score >= 70) return { label: "Hot", tone: "destructive" as const };
-  if (score >= 40) return { label: "Warm", tone: "warning" as const };
-  return { label: "Cold", tone: "info" as const };
+  if (score >= 70) return { value: "HOT", label: "Hot", tone: "destructive" as const };
+  if (score >= 40) return { value: "WARM", label: "Warm", tone: "warning" as const };
+  return { value: "COLD", label: "Cold", tone: "info" as const };
+}
+
+/** Sugere a data do próximo contato a partir do número do contato feito. */
+export function suggestNextContact(contactNumber: number) {
+  const days = contactNumber <= 2 ? 2 : contactNumber <= 5 ? 3 : 5;
+  const d = new Date();
+  d.setDate(d.getDate() + days);
+  return d.toISOString().slice(0, 10);
 }
 
 /** Sugere a data do próximo contato conforme a etapa de abordagem. */
-export function suggestNextContact(from = new Date(), stage?: string | null) {
+export function suggestNextContactByStage(from = new Date(), stage?: string | null) {
   const days = stage?.startsWith("ABORDADO") ? 2 : stage?.startsWith("FOLLOW_UP") ? 3 : 5;
   const d = new Date(from);
   d.setDate(d.getDate() + days);
