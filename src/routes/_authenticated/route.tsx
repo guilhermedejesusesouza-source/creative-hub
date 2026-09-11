@@ -1,4 +1,4 @@
-import { Outlet, createFileRoute, redirect } from "@tanstack/react-router";
+import { Navigate, Outlet, createFileRoute, redirect } from "@tanstack/react-router";
 import { useState } from "react";
 import { toast } from "sonner";
 
@@ -14,15 +14,19 @@ import { supabase } from "@/integrations/supabase/client";
 export const Route = createFileRoute("/_authenticated")({
   ssr: false,
   beforeLoad: async () => {
-    const { data, error } = await supabase.auth.getUser();
-    if (error || !data.user) throw redirect({ to: "/auth" });
-    return { user: data.user };
+    if (typeof window !== "undefined") {
+      const { data } = await supabase.auth.getSession();
+      if (!data.session) {
+        throw redirect({ to: "/auth" });
+      }
+      return { user: data.session.user };
+    }
   },
   component: AuthenticatedLayout,
 });
 
 function AuthenticatedLayout() {
-  const { loading, workspaceId } = useAuth();
+  const { loading, session, workspaceId } = useAuth();
 
   if (loading) {
     return (
@@ -30,6 +34,10 @@ function AuthenticatedLayout() {
         <LoadingRows rows={6} />
       </div>
     );
+  }
+
+  if (!session) {
+    return <Navigate to="/auth" replace />;
   }
 
   if (!workspaceId) return <Onboarding />;

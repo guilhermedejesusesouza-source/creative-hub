@@ -53,12 +53,12 @@ function AuthPage() {
   async function signUp(e: React.FormEvent) {
     e.preventDefault();
     setBusy(true);
-    const { error } = await supabase.auth.signUp({
+    const { data, error } = await supabase.auth.signUp({
       email,
       password,
       options: {
         data: { full_name: name },
-        emailRedirectTo: window.location.origin,
+        emailRedirectTo: typeof window !== "undefined" ? window.location.origin : undefined,
       },
     });
     setBusy(false);
@@ -66,8 +66,31 @@ function AuthPage() {
       toast.error(error.message);
       return;
     }
-    toast.success("Conta criada. Você já pode entrar.");
-    navigate({ to: "/dashboard", replace: true });
+    if (data.session) {
+      toast.success("Conta criada e autenticada com sucesso!");
+      navigate({ to: "/dashboard", replace: true });
+    } else {
+      toast.success(
+        "Conta criada! Verifique seu e-mail para confirmar o cadastro antes de entrar.",
+        { duration: 6000 }
+      );
+      setMode("entrar");
+    }
+  }
+
+  async function resetPassword(e: React.FormEvent) {
+    e.preventDefault();
+    setBusy(true);
+    const { error } = await supabase.auth.resetPasswordForEmail(email, {
+      redirectTo: typeof window !== "undefined" ? `${window.location.origin}/reset-password` : undefined,
+    });
+    setBusy(false);
+    if (error) {
+      toast.error(error.message);
+      return;
+    }
+    toast.success("Instruções de recuperação enviadas para o seu e-mail!");
+    setMode("entrar");
   }
 
   return (
@@ -79,13 +102,16 @@ function AuthPage() {
         </p>
 
         <div className="surface-panel mt-6 p-6">
-          <Tabs defaultValue="entrar">
+          <Tabs value={mode} onValueChange={(v) => setMode(v as typeof mode)}>
             <TabsList className="w-full">
               <TabsTrigger value="entrar" className="flex-1">
                 Entrar
               </TabsTrigger>
               <TabsTrigger value="criar" className="flex-1">
                 Criar conta
+              </TabsTrigger>
+              <TabsTrigger value="recuperar" className="flex-1">
+                Recuperar
               </TabsTrigger>
             </TabsList>
 
@@ -102,7 +128,16 @@ function AuthPage() {
                   />
                 </div>
                 <div className="space-y-1.5">
-                  <Label htmlFor="password">Senha</Label>
+                  <div className="flex items-center justify-between">
+                    <Label htmlFor="password">Senha</Label>
+                    <button
+                      type="button"
+                      onClick={() => setMode("recuperar")}
+                      className="text-xs text-primary hover:underline"
+                    >
+                      Esqueceu a senha?
+                    </button>
+                  </div>
                   <Input
                     id="password"
                     type="password"
@@ -147,6 +182,36 @@ function AuthPage() {
                 <Button type="submit" className="w-full" disabled={busy}>
                   {busy ? "Criando…" : "Criar conta"}
                 </Button>
+              </form>
+            </TabsContent>
+
+            <TabsContent value="recuperar">
+              <form className="space-y-4" onSubmit={resetPassword}>
+                <p className="text-xs text-muted-foreground">
+                  Digite seu e-mail cadastrado para receber um link de redefinição de senha.
+                </p>
+                <div className="space-y-1.5">
+                  <Label htmlFor="email-recuperar">E-mail</Label>
+                  <Input
+                    id="email-recuperar"
+                    type="email"
+                    required
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                  />
+                </div>
+                <Button type="submit" className="w-full" disabled={busy}>
+                  {busy ? "Enviando link…" : "Enviar link de recuperação"}
+                </Button>
+                <div className="text-center">
+                  <button
+                    type="button"
+                    onClick={() => setMode("entrar")}
+                    className="text-xs text-muted-foreground hover:underline"
+                  >
+                    Voltar para o login
+                  </button>
+                </div>
               </form>
             </TabsContent>
           </Tabs>

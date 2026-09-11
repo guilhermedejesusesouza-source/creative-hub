@@ -1,6 +1,7 @@
 import { Link, createFileRoute } from "@tanstack/react-router";
-import { Plus } from "lucide-react";
+import { Plus, Sparkles, Zap } from "lucide-react";
 import { useMemo, useState } from "react";
+import { toast } from "sonner";
 
 import { DemoTag, EmptyState, LoadingRows, PageHeader, Tag } from "@/components/ui-kit";
 import { Button } from "@/components/ui/button";
@@ -35,6 +36,8 @@ import {
   dateBR,
   type CreativeStatus,
 } from "@/lib/domain";
+import { generateCreativeHooks } from "@/lib/ai/gemini-service";
+import type { GeneratedHook } from "@/lib/ai/types";
 
 export const Route = createFileRoute("/_authenticated/criativos/")({
   head: () => ({
@@ -93,7 +96,12 @@ function CreativesPage() {
       <PageHeader
         title="Criativos"
         description="Cada criativo com ID sequencial, estratégia, produção e resultados."
-        actions={<NewCreativeDialog clients={clients.data ?? []} projects={projects.data ?? []} />}
+        actions={
+          <div className="flex items-center gap-2">
+            <AICreativeGeneratorDialog clients={clients.data ?? []} projects={projects.data ?? []} />
+            <NewCreativeDialog clients={clients.data ?? []} projects={projects.data ?? []} />
+          </div>
+        }
       />
 
       <div className="flex flex-wrap gap-3">
@@ -337,5 +345,186 @@ function SelectField({
         </SelectContent>
       </Select>
     </div>
+  );
+}
+
+function AICreativeGeneratorDialog({
+  clients,
+  projects,
+}: {
+  clients: { id: string; name: string }[];
+  projects: { id: string; name: string; client_id: string }[];
+}) {
+  const [open, setOpen] = useState(false);
+  const [clientId, setClientId] = useState("");
+  const [productName, setProductName] = useState("");
+  const [promise, setPromise] = useState("");
+  const [category, setCategory] = useState<any>("dor");
+  const [busy, setBusy] = useState(false);
+  const [generatedHooks, setGeneratedHooks] = useState<GeneratedHook[]>([]);
+  const [isCached, setIsCached] = useState(false);
+  const { workspaceId } = useAuth();
+  const saveCreative = useSaveRow("creatives", { success: "Criativo gerado e salvo com sucesso!" });
+
+  async function handleGenerate(e: React.FormEvent) {
+    e.preventDefault();
+    if (!workspaceId) return;
+    setBusy(true);
+    const clientObj = clients.find((c) => c.id === clientId);
+    try {
+      const res = await generateCreativeHooks({
+        workspaceId,
+        clientName: clientObj?.name || "Cliente",
+        productName: productName || "Produto Principal",
+        offerPromise: promise,
+        category,
+        count: 4,
+      });
+      setGeneratedHooks(res.hooks);
+      setIsCached(res.cached);
+      toast.success(
+        res.cached
+          ? "Ganchos recuperados do cache instantâneo (0 tokens consumidos!)"
+          : "Novos ganchos gerados pela IA com sucesso!"
+      );
+    } catch {
+      toast.error("Erro ao gerar ganchos com IA");
+    } finally {
+      setBusy(false);
+    }
+  }
+
+  async function handleSaveAsCreative(hook: GeneratedHook) {
+    if (!workspaceId) return;
+    const clientProjects = projects.filter((p) => p.client_id === clientId);
+    await saveCreative.mutateAsync({
+      workspace_id: workspaceId,
+      client_id: clientId || null,
+      project_id: clientProjects[0]?.id || null,
+      name: `[IA] ${hook.text.slice(0, 40)}...`,
+      platform: "Meta",
+      format: hook.format === "video_9_16" ? "Vídeo 9:16" : hook.format === "carrossel" ? "Carrossel 4:5" : "Reels",
+      status: "BACKLOG",
+      hypothesis: `Hook focado em ${hook.category}: "${hook.text}" - ${hook.rationale}`,
+      concept: hook.text,
+      funnel: "TOFU",
+      priority: "alta",
+    });
+  }
+
+  return (
+    <Dialog open={open} onOpenChange={setOpen}>
+      <DialogTrigger asChild>
+        <Button variant="outline" className="gap-2 border-primary/40 bg-primary/5 hover:bg-primary/10">
+          <Sparkles className="size-4 text-primary" /> Gerar com IA
+        </Button>
+      </DialogTrigger>
+      <DialogContent className="max-w-2xl">
+        <DialogHeader>
+          <DialogTitle className="flex items-center gap-2">
+            <Sparkles className="size-5 text-primary" /> Gerador Inteligente de Ganchos & Criativos
+          </DialogTitle>
+        </DialogHeader>
+
+        <form onSubmit={handleGenerate} className="space-y-4">
+          <div className="grid gap-3 sm:grid-cols-2">
+            <div className="space-y-1.5">
+              <Label>Cliente</Label>
+              <Select value={clientId} onValueChange={setClientId} required>
+                <SelectTrigger>
+                  <SelectValue placeholder="Selecione o cliente" />
+                </SelectTrigger>
+                <SelectContent>
+                  {clients.map((c) => (
+                    <SelectItem key={c.id} value={c.id}>
+                      {c.name}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
+
+            <div className="space-y-1.5">
+              <Label>Ângulo / Categoria</Label>
+              <Select value={category} onValueChange={setCategory}>
+                <SelectTrigger>
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="dor">Dor / Frustração</SelectItem>
+                  <SelectItem value="curiosidade">Curiosidade</SelectItem>
+                  <SelectItem value="prova">Prova Social</SelectItem>
+                  <SelectItem value="quebra_de_padrao">Quebra de Padrão</SelectItem>
+                  <SelectItem value="urgencia">Urgência / Escassez</SelectItem>
+                  <SelectItem value="beneficio">Benefício Direto</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+          </div>
+
+          <div className="grid gap-3 sm:grid-cols-2">
+            <div className="space-y-1.5">
+              <Label htmlFor="ai-prod">Produto / Serviço</Label>
+              <Input
+                id="ai-prod"
+                placeholder="Ex: Harmonização Facial, Curso Tráfego"
+                value={productName}
+                onChange={(e) => setProductName(e.target.value)}
+                required
+              />
+            </div>
+            <div className="space-y-1.5">
+              <Label htmlFor="ai-prom">Promessa da Oferta (Opcional)</Label>
+              <Input
+                id="ai-prom"
+                placeholder="Ex: Agende avaliação e saiba o protocolo ideal"
+                value={promise}
+                onChange={(e) => setPromise(e.target.value)}
+              />
+            </div>
+          </div>
+
+          <div className="flex justify-between items-center pt-2">
+            <span className="text-xs text-muted-foreground flex items-center gap-1">
+              <Zap className="size-3.5 text-primary" /> Gemini Flash + Token Cache Ativo
+            </span>
+            <Button type="submit" disabled={busy || !clientId || !productName}>
+              {busy ? "Criando ganchos..." : "Gerar 4 Opções"}
+            </Button>
+          </div>
+        </form>
+
+        {generatedHooks.length > 0 && (
+          <div className="mt-4 pt-4 border-t border-border space-y-3">
+            <div className="flex items-center justify-between">
+              <h4 className="text-sm font-semibold">Opções de Ganchos Geradas:</h4>
+              {isCached && (
+                <Tag tone="info">⚡ Resposta do Cache (0 Tokens)</Tag>
+              )}
+            </div>
+
+            <div className="grid gap-2">
+              {generatedHooks.map((h, idx) => (
+                <div key={idx} className="surface-panel p-3 flex items-center justify-between gap-3">
+                  <div className="space-y-1">
+                    <p className="text-sm font-medium">"{h.text}"</p>
+                    <p className="text-xs text-muted-foreground">{h.rationale}</p>
+                    <Tag tone="muted">{h.category}</Tag>
+                  </div>
+                  <Button
+                    size="sm"
+                    variant="outline"
+                    className="shrink-0"
+                    onClick={() => handleSaveAsCreative(h)}
+                  >
+                    Salvar Criativo
+                  </Button>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+      </DialogContent>
+    </Dialog>
   );
 }
