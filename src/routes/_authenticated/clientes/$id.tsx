@@ -130,7 +130,7 @@ function ClientDetail() {
 
       <PageHeader
         title={c.name}
-        description={[c.company, c.segment, c.service].filter(Boolean).join(" · ") || undefined}
+        description={[c["company"], c["segment"], c["service"]].filter(Boolean).join(" · ") || " "}
         actions={
           <div className="flex gap-2">
             <Select
@@ -165,7 +165,7 @@ function ClientDetail() {
       />
 
       <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
-        <StatCard label="Valor mensal" value={brl(Number(c.monthly_value ?? 0))} />
+        <StatCard label="Valor mensal" value={brl(Number(c["monthly_value"] ?? 0))} />
         <StatCard label="Tarefas abertas" value={openTasks.length} />
         <StatCard label="Criativos" value={(creatives.data ?? []).length} />
         <StatCard label="ROAS" value={dec(metrics.roas)} tone="neon" />
@@ -188,19 +188,19 @@ function ClientDetail() {
               <h2 className="text-sm font-semibold">Dados comerciais e contato</h2>
               <dl className="mt-3 grid grid-cols-2 gap-3 text-sm">
                 <Info label="Status" value={labelFrom(CLIENT_STATUSES, c.status)} />
-                <Info label="Prioridade" value={String(c.priority ?? "—")} />
-                <Info label="Responsável" value={String(c.account_manager ?? "—")} />
-                <Info label="Comercial" value={String(c.sales_owner ?? "—")} />
-                <Info label="Contato" value={String(c.contact_name ?? "—")} />
-                <Info label="Telefone" value={String(c.contact_phone ?? "—")} />
-                <Info label="E-mail" value={String(c.contact_email ?? "—")} />
-                <Info label="WhatsApp" value={String(c.whatsapp ?? "—")} />
-                <Info label="Instagram" value={String(c.instagram ?? "—")} />
-                <Info label="Site" value={String(c.website ?? "—")} />
-                <Info label="Cidade/UF" value={[c.city, c.state].filter(Boolean).join("/") || "—"} />
-                <Info label="Entrada" value={dateBR(String(c.entry_date ?? "")) || "—"} />
-                <Info label="Vencimento" value={c.due_day ? `Dia ${c.due_day}` : "—"} />
-                <Info label="Financeiro" value={String(c.financial_status ?? "—")} />
+                <Info label="Prioridade" value={String(c["priority"] ?? "—")} />
+                <Info label="Responsável" value={String(c["account_manager"] ?? "—")} />
+                <Info label="Comercial" value={String(c["sales_owner"] ?? "—")} />
+                <Info label="Contato" value={String(c["contact_name"] ?? "—")} />
+                <Info label="Telefone" value={String(c["contact_phone"] ?? "—")} />
+                <Info label="E-mail" value={String(c["contact_email"] ?? "—")} />
+                <Info label="WhatsApp" value={String(c["whatsapp"] ?? "—")} />
+                <Info label="Instagram" value={String(c["instagram"] ?? "—")} />
+                <Info label="Site" value={String(c["website"] ?? "—")} />
+                <Info label="Cidade/UF" value={[c["city"], c["state"]].filter(Boolean).join("/") || "—"} />
+                <Info label="Entrada" value={dateBR(String(c["entry_date"] ?? "")) || "—"} />
+                <Info label="Vencimento" value={c["due_day"] ? `Dia ${c["due_day"]}` : "—"} />
+                <Info label="Financeiro" value={String(c["financial_status"] ?? "—")} />
               </dl>
             </section>
 
@@ -221,11 +221,11 @@ function ClientDetail() {
                   healthSignals.map((s) => <li key={s}>• {s}</li>)
                 )}
               </ul>
-              {c.notes ? (
+              {c["notes"] ? (
                 <>
                   <h3 className="mt-5 text-sm font-semibold">Observações gerais</h3>
                   <p className="mt-1.5 whitespace-pre-wrap text-sm text-muted-foreground">
-                    {String(c.notes)}
+                    {String(c["notes"])}
                   </p>
                 </>
               ) : null}
