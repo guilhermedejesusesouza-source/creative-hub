@@ -47,7 +47,7 @@ function Landing() {
       <header className="mx-auto flex max-w-6xl items-center justify-between px-5 py-6">
         <span className="font-display text-lg font-semibold">Creative OS</span>
         <Link
-          to="/auth"
+          to="/dashboard"
           className="rounded-lg border border-border px-4 py-2 text-sm font-medium transition-colors hover:border-primary/50"
         >
           Entrar
