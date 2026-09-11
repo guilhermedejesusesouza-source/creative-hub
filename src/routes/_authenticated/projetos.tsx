@@ -109,7 +109,7 @@ function NewProjectDialog({ clients }: { clients: { id: string; name: string }[]
     name: "",
     client_id: "",
     objective: "",
-    platform: "META",
+    platform: "Meta",
     funnel: "TOFU",
     starts_on: "",
     ends_on: "",
@@ -178,8 +178,8 @@ function NewProjectDialog({ clients }: { clients: { id: string; name: string }[]
                 </SelectTrigger>
                 <SelectContent>
                   {PLATFORMS.map((p) => (
-                    <SelectItem key={p.value} value={p.value}>
-                      {p.label}
+                    <SelectItem key={p} value={p}>
+                      {p}
                     </SelectItem>
                   ))}
                 </SelectContent>

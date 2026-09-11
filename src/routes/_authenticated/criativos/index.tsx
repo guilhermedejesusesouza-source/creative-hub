@@ -191,11 +191,11 @@ function NewCreativeDialog({
     name: "",
     client_id: "",
     project_id: "",
-    platform: "META",
-    format: "REELS",
+    platform: "Meta",
+    format: "Reels",
     funnel: "TOFU",
-    awareness: "PROBLEM_AWARE",
-    priority: "MEDIA",
+    awareness: "problem_aware",
+    priority: "media",
     hypothesis: "",
     concept: "",
   });
@@ -275,8 +275,8 @@ function NewCreativeDialog({
                 </SelectContent>
               </Select>
             </div>
-            <SelectField label="Plataforma" value={form.platform} onChange={(v) => set("platform", v)} options={PLATFORMS} />
-            <SelectField label="Formato" value={form.format} onChange={(v) => set("format", v)} options={FORMATS} />
+            <SelectField label="Plataforma" value={form.platform} onChange={(v) => set("platform", v)} options={PLATFORMS.map((p) => ({ value: p, label: p }))} />
+            <SelectField label="Formato" value={form.format} onChange={(v) => set("format", v)} options={FORMATS.map((f) => ({ value: f, label: f }))} />
             <SelectField label="Funil" value={form.funnel} onChange={(v) => set("funnel", v)} options={FUNNEL_STAGES} />
             <SelectField
               label="Nível de consciência"

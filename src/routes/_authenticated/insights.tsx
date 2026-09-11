@@ -127,7 +127,7 @@ function InsightsPage() {
                 <li key={i.id} className="surface-panel p-4">
                   <div className="flex items-start justify-between gap-2">
                     <p className="text-sm font-semibold">{i.title}</p>
-                    <Tag tone={i.priority === "URGENTE" ? "destructive" : "muted"}>{i.priority ?? "—"}</Tag>
+                    <Tag tone={i.priority === "urgente" ? "destructive" : "muted"}>{i.priority ?? "—"}</Tag>
                   </div>
                   <p className="text-xs text-muted-foreground">{clientName(i.client_id)}</p>
                   <dl className="mt-3 space-y-2 text-sm">
@@ -182,7 +182,7 @@ function NewInsightDialog({ clients }: { clients: { id: string; name: string }[]
     evidence: "",
     hypothesis: "",
     action: "",
-    priority: "MEDIA",
+    priority: "media",
   });
 
   function set(k: keyof typeof form, v: string) {

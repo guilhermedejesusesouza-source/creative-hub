@@ -86,7 +86,7 @@ function LeadDetail() {
   }>("follow_ups", workspaceId, { eq: { lead_id: id }, orderBy: "due_on", ascending: true });
 
   const [lossOpen, setLossOpen] = useState(false);
-  const [lossReason, setLossReason] = useState(LOSS_REASONS[0]?.value ?? "OUTRO");
+  const [lossReason, setLossReason] = useState<string>(LOSS_REASONS[0]?.value ?? "OUTRO");
   const [lossNote, setLossNote] = useState("");
 
   const [contactForm, setContactForm] = useState({

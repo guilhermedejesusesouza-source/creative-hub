@@ -86,6 +86,7 @@ function CreativeDetail() {
   if (creative.isLoading) return <LoadingRows rows={6} />;
   const c = creative.data;
   if (!c) return <EmptyState title="Criativo não encontrado" />;
+  const cData: Creative = c;
 
   const score = creativeScore(c);
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -123,15 +124,15 @@ function CreativeDetail() {
   async function iterate(variable: string) {
     const row = await save.mutateAsync({
       workspace_id: workspaceId,
-      name: `${c.name} — iteração (${variable})`,
-      client_id: c["client_id"] ?? null,
-      project_id: c["project_id"] ?? null,
-      platform: c["platform"] ?? null,
-      format: c["format"] ?? null,
-      funnel: c["funnel"] ?? null,
-      awareness: c["awareness"] ?? null,
-      angle_id: c["angle_id"] ?? null,
-      hook_id: c["hook_id"] ?? null,
+      name: `${cData.name} — iteração (${variable})`,
+      client_id: cData["client_id"] ?? null,
+      project_id: cData["project_id"] ?? null,
+      platform: cData["platform"] ?? null,
+      format: cData["format"] ?? null,
+      funnel: cData["funnel"] ?? null,
+      awareness: cData["awareness"] ?? null,
+      angle_id: cData["angle_id"] ?? null,
+      hook_id: cData["hook_id"] ?? null,
       hypothesis: `Se mudarmos ${variable}, então esperamos melhor resultado, porque essa é a variável mais provável de afetar o desempenho.`,
       status: "BACKLOG",
       parent_creative_id: id,
@@ -372,13 +373,13 @@ function CreativeDetail() {
             <div className="mt-3 flex flex-wrap gap-2">
               {ITERATION_VARIABLES.map((v) => (
                 <Button
-                  key={v.value}
+                  key={v}
                   size="sm"
                   variant="outline"
-                  onClick={() => iterate(v.value)}
+                  onClick={() => iterate(v)}
                   disabled={save.isPending}
                 >
-                  <Copy className="mr-1.5 size-3.5" /> {v.label}
+                  <Copy className="mr-1.5 size-3.5" /> {v}
                 </Button>
               ))}
             </div>

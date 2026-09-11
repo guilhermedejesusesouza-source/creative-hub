@@ -122,7 +122,7 @@ function TasksPage() {
             {t.recurrence && t.recurrence !== "NENHUMA" ? (
               <Tag tone="info">{labelFrom(RECURRENCES, t.recurrence)}</Tag>
             ) : null}
-            <Tag tone={t.priority === "URGENTE" ? "destructive" : "muted"}>{t.priority}</Tag>
+            <Tag tone={t.priority === "urgente" ? "destructive" : "muted"}>{t.priority}</Tag>
             <span className="text-xs text-muted-foreground">{dateBR(t.due_on)}</span>
             <Tag
               tone={
@@ -210,7 +210,7 @@ function NewTaskDialog({ clients }: { clients: { id: string; name: string }[] })
     title: "",
     description: "",
     type: "OPERACIONAL",
-    priority: "MEDIA",
+    priority: "media",
     due_on: new Date().toISOString().slice(0, 10),
     client_id: "",
     recurrence: "NENHUMA",

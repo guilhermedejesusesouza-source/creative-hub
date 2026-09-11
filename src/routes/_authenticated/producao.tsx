@@ -131,7 +131,7 @@ function ProductionBoard() {
                       <p className="text-sm font-medium">{c.name}</p>
                       <p className="text-[11px] text-muted-foreground">{clientName(c.client_id)}</p>
                       <div className="mt-2 flex items-center justify-between">
-                        <Tag tone={c.priority === "URGENTE" ? "destructive" : "muted"}>
+                        <Tag tone={c.priority === "urgente" ? "destructive" : "muted"}>
                           {c.priority ?? "—"}
                         </Tag>
                         <span className="text-[11px] text-muted-foreground">{dateBR(c.due_on)}</span>

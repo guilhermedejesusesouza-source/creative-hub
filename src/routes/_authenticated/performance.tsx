@@ -127,8 +127,8 @@ function PerformancePage() {
           <SelectContent>
             <SelectItem value="TODAS">Todas as plataformas</SelectItem>
             {PLATFORMS.map((p) => (
-              <SelectItem key={p.value} value={p.value}>
-                {p.label}
+              <SelectItem key={p} value={p}>
+                {p}
               </SelectItem>
             ))}
           </SelectContent>
@@ -221,7 +221,7 @@ function NewPerfDialog({
   const today = new Date().toISOString().slice(0, 10);
   const [form, setForm] = useState({
     creative_id: "",
-    platform: "META",
+    platform: "Meta",
     period_start: today,
     period_end: today,
     spend: "",
@@ -312,8 +312,8 @@ function NewPerfDialog({
                 </SelectTrigger>
                 <SelectContent>
                   {PLATFORMS.map((p) => (
-                    <SelectItem key={p.value} value={p.value}>
-                      {p.label}
+                    <SelectItem key={p} value={p}>
+                      {p}
                     </SelectItem>
                   ))}
                 </SelectContent>
