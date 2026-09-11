@@ -217,8 +217,21 @@ export type Metrics = {
 const n = (v: unknown) => (typeof v === "number" && isFinite(v) ? v : Number(v ?? 0) || 0);
 const div = (a: number, b: number) => (b > 0 ? a / b : 0);
 
+type Totals = Pick<
+  Metrics,
+  | "spend"
+  | "impressions"
+  | "reach"
+  | "clicks"
+  | "lpv"
+  | "conversions"
+  | "leads"
+  | "purchases"
+  | "revenue"
+>;
+
 export function aggregateMetrics(rows: PerformanceRow[]): Metrics {
-  const t = rows.reduce(
+  const t: Totals = rows.reduce<Totals>(
     (acc, r) => ({
       spend: acc.spend + n(r.spend),
       impressions: acc.impressions + n(r.impressions),
