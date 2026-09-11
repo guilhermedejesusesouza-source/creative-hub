@@ -8,7 +8,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useAuth } from "@/hooks/useAuth";
-import { integrations } from "@/lib/integrations";
+import { INTEGRATIONS } from "@/lib/integrations";
 import { useRows } from "@/lib/data";
 import { ROLES, dateBR } from "@/lib/domain";
 
@@ -123,8 +123,8 @@ function SettingsPage() {
             dados externos reais.
           </p>
           <ul className="grid gap-3 sm:grid-cols-2 xl:grid-cols-3">
-            {integrations.map((i) => (
-              <li key={i.id} className="surface-panel p-4">
+            {INTEGRATIONS.map((i) => (
+              <li key={i.key} className="surface-panel p-4">
                 <div className="flex items-start justify-between gap-2">
                   <p className="text-sm font-semibold">{i.name}</p>
                   <Tag tone={i.connected ? "success" : "muted"}>
