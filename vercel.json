@@ -1,4 +1,0 @@
-{
-  "rewrites": [{ "source": "/(.*)", "destination": "/$1" }],
-  "builds": [{ "src": "dist/**", "use": "@vercel/static", "config": { "distDir": "dist" } }]
-}
